@@ -1,0 +1,12 @@
+{
+  "trailingComma": "es5",
+  "printWidth": 120,
+  "overrides": [
+    {
+      "files": ["index.html", "vite.config.ts"],
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
+}
