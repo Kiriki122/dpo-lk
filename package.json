@@ -16,6 +16,8 @@
     "@hookform/resolvers": "^5.2.2",
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
+    "@types/lodash.debounce": "^4.0.9",
+    "lodash.debounce": "^4.0.8",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.66.0",

@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import { useLocation, createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 
 import LoginPage from "@/pages/login";
+import MyCoursesPage from "@/pages/my-courses-page";
 import { pathKeys } from "@/shared/router";
 import { MainLayout } from "@/shared/ui/MainLayout/MainLayout";
 
