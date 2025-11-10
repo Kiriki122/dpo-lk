@@ -26,7 +26,7 @@ const PageContent = ({ title }: { title: string }) => {
 };
 
 const HomePage: React.FC = () => <PageContent title="Главная страница" />;
-const MyCoursesPage: React.FC = () => <PageContent title="Мои курсы" />;
+// const MyCoursesPage: React.FC = () => <PageContent title="Мои курсы" />;
 const EnrollPage: React.FC = () => <PageContent title="Запись на курс" />;
 const DocumentsPage: React.FC = () => <PageContent title="Документы" />;
 const SchedulePage: React.FC = () => <PageContent title="Расписание" />;
@@ -49,7 +49,7 @@ const AppRouterConfig = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: pathKeys.myCourses, element: <MyCoursesPage /> },
-      { path: pathKeys.enroll, element: <EnrollPage /> },
+      { path: pathKeys.enroll.root, element: <EnrollPage /> },
       { path: pathKeys.documents, element: <DocumentsPage /> },
       { path: pathKeys.schedule, element: <SchedulePage /> },
     ],

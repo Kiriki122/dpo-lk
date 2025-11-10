@@ -14,7 +14,7 @@ import type { SidebarLink } from "../Sidebar/Sidebar";
 
 const sidebarLinks: SidebarLink[] = [
   { text: "Мои курсы", path: pathKeys.myCourses, icon: <SchoolIcon /> },
-  { text: "Запись на курс", path: pathKeys.enroll, icon: <PlaylistAddCheckIcon /> },
+  { text: "Запись на курс", path: pathKeys.enroll.root, icon: <PlaylistAddCheckIcon /> },
   { text: "Документы", path: pathKeys.documents, icon: <DescriptionIcon /> },
   { text: "Расписание", path: pathKeys.schedule, icon: <CalendarMonthIcon /> },
 ];
