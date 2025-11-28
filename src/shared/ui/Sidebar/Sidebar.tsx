@@ -70,7 +70,7 @@ const StyledDrawer = styled(Drawer, {
   }),
 }));
 
-const Sidebar = ({ open, links, onClose, width = 300, miniWidth = 60 }: SidebarProps) => {
+export const Sidebar = ({ open, links, onClose, width = 300, miniWidth = 60 }: SidebarProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 

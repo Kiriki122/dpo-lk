@@ -7,10 +7,8 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import { pathKeys } from "@/shared/router";
-import Header from "../Header/Header";
-import Sidebar from "../Sidebar/Sidebar";
-
-import type { SidebarLink } from "../Sidebar/Sidebar";
+import { Header } from "@/shared/ui/Header/Header";
+import { Sidebar, type SidebarLink } from "@/shared/ui/Sidebar/Sidebar";
 
 const sidebarLinks: SidebarLink[] = [
   { text: "Мои курсы", path: pathKeys.myCourses, icon: <SchoolIcon /> },
@@ -39,11 +37,10 @@ export const MainLayout = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${isSidebarOpen ? 300 : 60}px)` },
         }}
       >
         <Box sx={(theme) => theme.mixins.toolbar} />
-        <Container maxWidth="lg">
+        <Container>
           <Outlet />
         </Container>
       </Box>

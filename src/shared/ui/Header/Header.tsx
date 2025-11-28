@@ -8,7 +8,7 @@ interface HeaderProps {
   onMenuClick: () => void;
 }
 
-const Header = ({ onMenuClick }: HeaderProps) => {
+export const Header = ({ onMenuClick }: HeaderProps) => {
   return (
     <AppBar position="fixed" elevation={4} sx={{ top: 0, zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
