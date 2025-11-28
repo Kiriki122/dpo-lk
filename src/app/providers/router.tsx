@@ -3,6 +3,7 @@ import { useLocation, createBrowserRouter, RouterProvider, Navigate } from "reac
 
 import LoginPage from "@/pages/login";
 import MyCoursesPage from "@/pages/my-courses-page";
+import { MyDocumentsPage } from "@/pages/my-documents-page";
 import { pathKeys } from "@/shared/router";
 import { MainLayout } from "@/shared/ui/MainLayout/MainLayout";
 
@@ -29,7 +30,7 @@ const PageContent = ({ title }: { title: string }) => {
 const HomePage: React.FC = () => <PageContent title="Главная страница" />;
 // const MyCoursesPage: React.FC = () => <PageContent title="Мои курсы" />;
 const EnrollPage: React.FC = () => <PageContent title="Запись на курс" />;
-const DocumentsPage: React.FC = () => <PageContent title="Документы" />;
+// const DocumentsPage: React.FC = () => <PageContent title="Документы" />;
 const SchedulePage: React.FC = () => <PageContent title="Расписание" />;
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -51,7 +52,7 @@ const AppRouterConfig = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: pathKeys.myCourses, element: <MyCoursesPage /> },
       { path: pathKeys.enroll.root, element: <EnrollPage /> },
-      { path: pathKeys.documents, element: <DocumentsPage /> },
+      { path: pathKeys.documents, element: <MyDocumentsPage /> },
       { path: pathKeys.schedule, element: <SchedulePage /> },
     ],
   },
