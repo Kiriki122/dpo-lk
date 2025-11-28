@@ -67,8 +67,9 @@ export const MyCoursesPage = () => {
 
       {/* ОБРАБОТКА СОСТОЯНИЙ */}
       {isLoading && (
-        <Box display="flex" justifyContent="center" mt={4}>
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: 4 }}>
           <CircularProgress />
+          <Typography ml={2}>Загрузка курсов...</Typography>
         </Box>
       )}
 
