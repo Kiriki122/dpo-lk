@@ -1,37 +1,10 @@
 import { Box, CircularProgress, Typography, Alert } from "@mui/material";
-import { useState, useEffect } from "react";
 
 import { CourseAccordionItem } from "@/entities/course";
-import { fetchUserProgramsWithDocuments } from "@/shared/lib/mockApi";
-import { type ProgramWithDocuments } from "@/shared/types/document";
+import { useFetchUserProgramsWithDocuments } from "@/shared/api/usefetchUserProgramsWithDocuments";
 
 export const DocumentList = () => {
-  const [data, setData] = useState<ProgramWithDocuments[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadData = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const result = await fetchUserProgramsWithDocuments();
-
-        setData(result);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Произошла неизвестная ошибка при загрузке данных.");
-        }
-        setData(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
+  const { data, isLoading, error } = useFetchUserProgramsWithDocuments();
 
   if (isLoading) {
     return (
