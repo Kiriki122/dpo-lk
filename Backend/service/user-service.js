@@ -5,7 +5,7 @@ const UserDto = require("../migrations/user-dto");
 const ApiError = require("../exceptions/api-error");
 
 class UserService {
-  async registration(firstName, lastName, middlename, email, phone, password) {
+  async registration(firstName, lastName, middleName, email, phone, password) {
     const candidate_email = await User.findOne({ where: { email } });
     if (candidate_email) {
       throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`);
@@ -18,7 +18,7 @@ class UserService {
 
     const hashPassword = await bcrypt.hash(password, 3);
 
-    const user = await User.create({ firstName, lastName, middlename, email, phone, password: hashPassword });
+    const user = await User.create({ firstName, lastName, middleName, email, phone, password: hashPassword });
 
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
