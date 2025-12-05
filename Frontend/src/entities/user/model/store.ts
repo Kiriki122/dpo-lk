@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import { loginUserByEmail, logoutUser } from "../api/userApi";
-import type { User } from "./types";
+import type { User } from "./schema";
 
 interface UserState {
   user: User | null;
