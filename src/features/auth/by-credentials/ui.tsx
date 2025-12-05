@@ -1,9 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TextField, Button, Alert, CircularProgress, Box } from "@mui/material";
+import { AxiosError } from "axios";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
+import { login } from "@/entities/user";
 import { pathKeys } from "@/shared/router";
 import { loginSchema, type LoginFormData } from "./schema";
 
@@ -19,14 +21,44 @@ export const AuthByCredentialsForm = () => {
   });
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    if (data.login !== "admin@example.com" || data.password !== "password123") {
-      setError("root", {
-        type: "manual",
-        message: "Неправильно введен логин или пароль",
+    try {
+      await login({
+        email: data.login,
+        password: data.password,
       });
-    } else {
+
       navigate(pathKeys.root);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401 || error.response?.status === 400) {
+          setError("root", {
+            type: "server",
+            message: "Неверный логин или пароль",
+          });
+          return;
+        }
+
+        if (error.response?.status === 500) {
+          setError("root", {
+            type: "server",
+            message: "Ошибка сервера. Попробуйте позже.",
+          });
+          return;
+        }
+      } else if (error instanceof z.ZodError) {
+        console.error("API response validation failed:", error);
+        setError("root", {
+          type: "server",
+          message: "Ошибка обработки данных с сервера",
+        });
+        return;
+      }
+
+      // Неизвестная ошибка
+      setError("root", {
+        type: "server",
+        message: "Произошла непредвиденная ошибка",
+      });
     }
   };
 

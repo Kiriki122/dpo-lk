@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { useLocation, createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 
+import { useIsAuth } from "@/entities/user";
 import LoginPage from "@/pages/login";
 import MyCoursesPage from "@/pages/my-courses-page";
 import { MyDocumentsPage } from "@/pages/my-documents-page";
@@ -29,13 +30,10 @@ const PageContent = ({ title }: { title: string }) => {
 };
 
 const HomePage: React.FC = () => <PageContent title="Главная страница" />;
-// const MyCoursesPage: React.FC = () => <PageContent title="Мои курсы" />;
 const EnrollPage: React.FC = () => <PageContent title="Запись на курс" />;
-// const DocumentsPage: React.FC = () => <PageContent title="Документы" />;
-// const SchedulePage: React.FC = () => <PageContent title="Расписание" />;
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const isLogined = true;
+  const isLogined = useIsAuth();
 
   return isLogined ? children : <Navigate to={pathKeys.login} />;
 };
