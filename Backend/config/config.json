@@ -1,0 +1,25 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "root",
+    "database": "jwt-auth-db",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "username",
+    "password": "password",
+    "database": "db123_test",
+    "host": "db",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "username",
+    "password": "password",
+    "database": "db123_prod",
+    "host": "db",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}

@@ -1,0 +1,6 @@
+*.yml
+*.yaml
+*.env
+.prettierrc
+*.json
+/node_modules
