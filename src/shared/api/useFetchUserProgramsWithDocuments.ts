@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import {  MockDocs } from "../lib/documents/mockDocs";
+import { MockDocs } from "../lib/documents/mockDocs";
 
 import type { ProgramWithDocuments } from "../types/document";
 

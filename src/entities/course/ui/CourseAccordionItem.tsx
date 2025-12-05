@@ -37,12 +37,12 @@ export const CourseAccordionItem = ({ program }: CourseAccordionItemProps) => {
               <ListItem
                 key={document.id}
                 sx={{
-                  mt: 1, 
+                  mt: 1,
                   p: 1.5,
-                  borderRadius: 1, 
-                  bgcolor: "background.paper", 
+                  borderRadius: 1,
+                  bgcolor: "background.paper",
                   border: "1px solid",
-                  borderColor: "divider", 
+                  borderColor: "divider",
                   transition: "background-color 0.2s",
                   "&:hover": {
                     bgcolor: "#f0f0f0",

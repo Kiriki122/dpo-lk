@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Typography, Alert } from "@mui/material";
 
 import { CourseAccordionItem } from "@/entities/course";
-import { useFetchUserProgramsWithDocuments } from "@/shared/api/usefetchUserProgramsWithDocuments";
+import { useFetchUserProgramsWithDocuments } from "@/shared/api/useFetchUserProgramsWithDocuments";
 
 export const DocumentList = () => {
   const { data, isLoading, error } = useFetchUserProgramsWithDocuments();
