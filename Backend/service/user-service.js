@@ -77,15 +77,6 @@ class UserService {
     const users = await User.findAll();
     return users;
   }
-
-  async checkAuthUser(req) {
-    const user = tokenService.validateAccessToken(req.headers.authorization.split(" ")[1]);
-    if (!user) {
-      throw ApiError.UnauthorizedError("Время сессии истекло");
-    }
-    const userDto = new UserDto(user);
-    return { user: userDto };
-  }
 }
 
 module.exports = new UserService();

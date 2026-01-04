@@ -1,9 +1,10 @@
-import { Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { useLocation, createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
 
-import { useIsAuth } from "@/entities/user";
-import LoginPage from "@/pages/login";
-import MyCoursesPage from "@/pages/my-courses-page";
+import { checkAuth, useIsAuth, useUserIsLoading } from "@/entities/user";
+import { LoginPage } from "@/pages/login";
+import { MyCoursesPage } from "@/pages/my-courses-page";
 import { MyDocumentsPage } from "@/pages/my-documents-page";
 import { SchedulePage } from "@/pages/schedule-page";
 import { pathKeys } from "@/shared/router";
@@ -32,41 +33,67 @@ const PageContent = ({ title }: { title: string }) => {
 const HomePage: React.FC = () => <PageContent title="Главная страница" />;
 const EnrollPage: React.FC = () => <PageContent title="Запись на курс" />;
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const isLogined = useIsAuth();
+const ProtectedRoutes = () => {
+  const isAuth = useIsAuth();
+  const location = useLocation();
 
-  return isLogined ? children : <Navigate to={pathKeys.login} />;
+  if (!isAuth) {
+    return <Navigate to={pathKeys.login} state={{ from: location }} replace />;
+  }
+
+  return <Outlet />;
 };
 
-const ToProtectedRoute = () => {
-  const isLogined = useIsAuth();
+const PublicRoutes = () => {
+  const isAuth = useIsAuth();
 
-  return isLogined ? <Navigate to={pathKeys.root} /> : <Outlet />;
+  if (isAuth) {
+    return <Navigate to={pathKeys.root} replace />;
+  }
+
+  return <Outlet />;
 };
 // -------------------------
 
 const AppRouterConfig = createBrowserRouter([
   {
     path: pathKeys.root,
-    element: (
-      <ProtectedRoute>
-        <MainLayout />
-      </ProtectedRoute>
-    ),
+    element: <ProtectedRoutes />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: pathKeys.myCourses, element: <MyCoursesPage /> },
-      { path: pathKeys.enroll.root, element: <EnrollPage /> },
-      { path: pathKeys.documents, element: <MyDocumentsPage /> },
-      { path: pathKeys.schedule, element: <SchedulePage /> },
+      {
+        element: <MainLayout />,
+        children: [
+          { index: true, element: <HomePage /> },
+          { path: pathKeys.myCourses, element: <MyCoursesPage /> },
+          { path: pathKeys.enroll.root, element: <EnrollPage /> },
+          { path: pathKeys.documents, element: <MyDocumentsPage /> },
+          { path: pathKeys.schedule, element: <SchedulePage /> },
+        ],
+      },
     ],
   },
   {
-    element: <ToProtectedRoute />,
+    element: <PublicRoutes />,
     children: [{ path: pathKeys.login, element: <LoginPage /> }],
   },
 
   { path: "*", element: <Typography>404</Typography> },
 ]);
 
-export const AppRouter = () => <RouterProvider router={AppRouterConfig} />;
+export const AppRouter = () => {
+  const isLoading = useUserIsLoading();
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: "flex", flexGrow: 1, height: "100dvh", justifyContent: "center", alignItems: "center" }}>
+        <CircularProgress size={100} />
+      </Box>
+    );
+  }
+
+  return <RouterProvider router={AppRouterConfig} />;
+};

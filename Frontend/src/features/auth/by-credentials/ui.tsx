@@ -22,10 +22,7 @@ export const AuthByCredentialsForm = () => {
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
-      await login({
-        email: data.login,
-        password: data.password,
-      });
+      await login(data.login, data.password);
 
       navigate(pathKeys.root);
     } catch (error) {

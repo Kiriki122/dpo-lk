@@ -57,15 +57,6 @@ class UserController {
       next(e);
     }
   }
-
-  async checkAuthUser(req, res, next) {
-    try {
-      const user = await userService.checkAuthUser(req);
-      return res.json(user);
-    } catch (e) {
-      next(e);
-    }
-  }
 }
 
 module.exports = new UserController();

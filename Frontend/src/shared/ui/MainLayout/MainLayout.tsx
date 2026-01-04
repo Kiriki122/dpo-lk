@@ -6,6 +6,7 @@ import { Box, Container } from "@mui/material";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
+import { useUser } from "@/entities/user";
 import { pathKeys } from "@/shared/router";
 import { Header } from "@/shared/ui/Header/Header";
 import { Sidebar, type SidebarLink } from "@/shared/ui/Sidebar/Sidebar";
@@ -28,9 +29,11 @@ export const MainLayout = () => {
     setSidebarOpen(false);
   };
 
+  const user = useUser();
+
   return (
     <Box sx={{ display: "flex" }}>
-      <Header onMenuClick={toggleSidebar} />
+      <Header onMenuClick={toggleSidebar} firstName={user?.firstName} lastName={user?.lastName} />
       <Sidebar open={isSidebarOpen} onClose={handleSidebarClose} links={sidebarLinks} />
       <Box
         component="main"

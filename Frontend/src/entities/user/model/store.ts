@@ -1,24 +1,37 @@
 import { create } from "zustand";
 
-import { checkAuthUser, loginUserByEmail, logoutUser } from "../api/userApi";
-import type { User } from "./schema";
+import type { User } from "@/shared/types/user";
+import { checkAuthUser, loginUserByEmail, logoutUser } from "../api/user-service";
 
 interface UserState {
   user: User | null;
   isAuthenticated: boolean;
-  setIsAuthenticated: (isAuthenticated: boolean) => void;
+  isLoading: boolean;
   setUser: (user: User | null) => void;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 const useUserStore = create<UserState>((set) => ({
   user: null,
   isAuthenticated: false,
+  isLoading: true,
   setUser: (user: User | null) => set({ user }),
   setIsAuthenticated: (isAuthenticated: boolean) => set({ isAuthenticated }),
+  setIsLoading: (isLoading: boolean) => set({ isLoading }),
 }));
-export const login = async (data: { email: string; password: string }) => {
+
+export const useUser = () => useUserStore((state) => state.user);
+export const useIsAuth = () => useUserStore((state) => state.isAuthenticated);
+export const useUserIsLoading = () => useUserStore((state) => state.isLoading);
+
+const setUser = (user: User | null) => useUserStore.getState().setUser(user);
+const setIsAuthenticated = (isAuthenticated: boolean) => useUserStore.getState().setIsAuthenticated(isAuthenticated);
+const setIsLoading = (isLoading: boolean) => useUserStore.getState().setIsLoading(isLoading);
+
+export const login = async (login: string, password: string) => {
   try {
-    const response = await loginUserByEmail(data);
+    const response = await loginUserByEmail(login, password);
     localStorage.setItem("accessToken", response.accessToken);
     setUser(response.user);
     setIsAuthenticated(true);
@@ -36,21 +49,16 @@ export const logout = async () => {
 };
 
 export const checkAuth = async () => {
-  const accessToken = localStorage.getItem("accessToken");
-  if (accessToken) {
-    try {
-      const user = await checkAuthUser();
-      setUser(user);
-      setIsAuthenticated(true);
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+  setIsLoading(true);
+
+  try {
+    const data = await checkAuthUser();
+    localStorage.setItem("accessToken", data.accessToken);
+    setUser(data.user);
+    setIsAuthenticated(true);
+  } catch (error) {
+    console.error("Пользователь не авторизован:", error);
+  } finally {
+    setIsLoading(false);
   }
 };
-
-const setUser = (user: User | null) => useUserStore.getState().setUser(user);
-const setIsAuthenticated = (isAuthenticated: boolean) => useUserStore.getState().setIsAuthenticated(isAuthenticated);
-
-export const useUser = () => useUserStore((state) => state.user);
-export const useIsAuth = () => useUserStore((state) => state.isAuthenticated);
