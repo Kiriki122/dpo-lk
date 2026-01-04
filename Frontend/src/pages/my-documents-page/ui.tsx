@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 
 import { DocumentList } from "@/widgets/document-list";
 
-export const MyDocumentsPage: React.FC = () => {
+export const MyDocumentsPage = () => {
   return (
     <>
       <Typography variant="h3" component="h1" gutterBottom>
