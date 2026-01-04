@@ -1,7 +1,6 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 
-import { loginUserByEmail, logoutUser } from "../api/userApi";
+import { checkAuthUser, loginUserByEmail, logoutUser } from "../api/userApi";
 import type { User } from "./schema";
 
 interface UserState {
@@ -11,20 +10,12 @@ interface UserState {
   setUser: (user: User | null) => void;
 }
 
-const useUserStore = create<UserState>()(
-  persist(
-    (set) => ({
-      user: null,
-      isAuthenticated: false,
-      setUser: (user: User | null) => set({ user }),
-      setIsAuthenticated: (isAuthenticated: boolean) => set({ isAuthenticated }),
-    }),
-    {
-      name: "user-store",
-    }
-  )
-);
-
+const useUserStore = create<UserState>((set) => ({
+  user: null,
+  isAuthenticated: false,
+  setUser: (user: User | null) => set({ user }),
+  setIsAuthenticated: (isAuthenticated: boolean) => set({ isAuthenticated }),
+}));
 export const login = async (data: { email: string; password: string }) => {
   try {
     const response = await loginUserByEmail(data);
@@ -42,6 +33,20 @@ export const logout = async () => {
   localStorage.removeItem("accessToken");
   setUser(null);
   setIsAuthenticated(false);
+};
+
+export const checkAuth = async () => {
+  const accessToken = localStorage.getItem("accessToken");
+  if (accessToken) {
+    try {
+      const user = await checkAuthUser();
+      setUser(user);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 };
 
 const setUser = (user: User | null) => useUserStore.getState().setUser(user);

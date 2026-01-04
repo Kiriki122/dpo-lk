@@ -19,4 +19,6 @@ router.post("/logout", userController.logout);
 router.get("/refresh", userController.refresh);
 router.get("/users", authMiddleware, userController.getUsers);
 
+router.get("/check-auth", authMiddleware, userController.checkAuthUser);
+
 module.exports = router;

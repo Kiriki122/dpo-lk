@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { useLocation, createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { useLocation, createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
 
 import { useIsAuth } from "@/entities/user";
 import LoginPage from "@/pages/login";
@@ -37,6 +37,12 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   return isLogined ? children : <Navigate to={pathKeys.login} />;
 };
+
+const ToProtectedRoute = () => {
+  const isLogined = useIsAuth();
+
+  return isLogined ? <Navigate to={pathKeys.root} /> : <Outlet />;
+};
 // -------------------------
 
 const AppRouterConfig = createBrowserRouter([
@@ -55,7 +61,10 @@ const AppRouterConfig = createBrowserRouter([
       { path: pathKeys.schedule, element: <SchedulePage /> },
     ],
   },
-  { path: pathKeys.login, element: <LoginPage /> },
+  {
+    element: <ToProtectedRoute />,
+    children: [{ path: pathKeys.login, element: <LoginPage /> }],
+  },
 
   { path: "*", element: <Typography>404</Typography> },
 ]);
