@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TextField, Button, Alert, CircularProgress, Box } from "@mui/material";
 import { AxiosError } from "axios";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { login } from "@/entities/user";
@@ -11,6 +11,7 @@ import { loginSchema, type LoginFormData } from "./schema";
 
 export const AuthByCredentialsForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -20,11 +21,13 @@ export const AuthByCredentialsForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const fromPage = location.state?.from?.pathname || pathKeys.root;
+
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
       await login(data.login, data.password);
 
-      navigate(pathKeys.root);
+      navigate(fromPage);
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401 || error.response?.status === 400) {

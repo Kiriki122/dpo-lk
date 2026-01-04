@@ -3,6 +3,8 @@ import { create } from "zustand";
 import type { User } from "@/shared/types/user";
 import { checkAuthUser, loginUserByEmail, logoutUser } from "../api/user-service";
 
+import type { AxiosError } from "axios";
+
 interface UserState {
   user: User | null;
   isAuthenticated: boolean;
@@ -57,7 +59,8 @@ export const checkAuth = async () => {
     setUser(data.user);
     setIsAuthenticated(true);
   } catch (error) {
-    console.error("Пользователь не авторизован:", error);
+    const e = error as AxiosError;
+    console.error("Пользователь не авторизован:", e.message);
   } finally {
     setIsLoading(false);
   }
