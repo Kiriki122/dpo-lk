@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "prettier --config .prettierrc --write ./src && eslint ./src",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint ./src",
+    "format": "prettier --config .prettierrc --write \"./src/**/*.{ts,tsx,css,json}\"",
+    "format:check": "prettier --check \"./src/**/*.{ts,tsx,css,json}\"",
     "preview": "vite preview"
   },
   "dependencies": {
