@@ -5,6 +5,7 @@ const cors = require("cors");
 const db = require("./models");
 const router = require("./router");
 const errorMiddleware = require("./middlewares/error-middleware");
+const notFoundMiddleware = require("./middlewares/not-found-middleware");
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -18,6 +19,7 @@ app.use(
   })
 );
 app.use("/api", router);
+app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
 const start = async () => {
