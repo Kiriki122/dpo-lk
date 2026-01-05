@@ -2,19 +2,21 @@ import { privateApi, publicApi } from "@/shared/api/instance";
 import { RefreshResponseSchema, type RefreshResponse } from "@/shared/api/types";
 import { LoginResponseSchema, type LoginResponse } from "./types";
 
+const BASE_URL = "/users";
+
 const login = async (email: string, password: string) => {
-  const response = await publicApi.post<LoginResponse>("/login", { email, password });
+  const response = await publicApi.post<LoginResponse>(`${BASE_URL}/login`, { email, password });
 
   return LoginResponseSchema.parse(response.data);
 };
 
 const checkAuth = async () => {
-  const response = await publicApi.get<RefreshResponse>("/refresh");
+  const response = await publicApi.get<RefreshResponse>(`${BASE_URL}/refresh`);
   return RefreshResponseSchema.parse(response.data);
 };
 
 const logout = async () => {
-  await privateApi.post("/logout");
+  await privateApi.post(`${BASE_URL}/logout`);
   localStorage.removeItem("accessToken");
 };
 
