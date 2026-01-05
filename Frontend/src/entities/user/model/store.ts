@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import type { User } from "@/shared/types/user";
-import { checkAuthUser, loginUserByEmail, logoutUser } from "../api/user-service";
+import { userApi } from "../api/api";
 
 import type { AxiosError } from "axios";
 
@@ -31,9 +31,9 @@ const setUser = (user: User | null) => useUserStore.getState().setUser(user);
 const setIsAuthenticated = (isAuthenticated: boolean) => useUserStore.getState().setIsAuthenticated(isAuthenticated);
 const setIsLoading = (isLoading: boolean) => useUserStore.getState().setIsLoading(isLoading);
 
-export const login = async (login: string, password: string) => {
+const login = async (login: string, password: string) => {
   try {
-    const response = await loginUserByEmail(login, password);
+    const response = await userApi.login(login, password);
     localStorage.setItem("accessToken", response.accessToken);
     setUser(response.user);
     setIsAuthenticated(true);
@@ -43,18 +43,18 @@ export const login = async (login: string, password: string) => {
   }
 };
 
-export const logout = async () => {
-  await logoutUser();
+const logout = async () => {
+  await userApi.logout();
   localStorage.removeItem("accessToken");
   setUser(null);
   setIsAuthenticated(false);
 };
 
-export const checkAuth = async () => {
+const checkAuth = async () => {
   setIsLoading(true);
 
   try {
-    const data = await checkAuthUser();
+    const data = await userApi.checkAuth();
     localStorage.setItem("accessToken", data.accessToken);
     setUser(data.user);
     setIsAuthenticated(true);
@@ -64,4 +64,10 @@ export const checkAuth = async () => {
   } finally {
     setIsLoading(false);
   }
+};
+
+export const userController = {
+  login,
+  logout,
+  checkAuth,
 };

@@ -5,7 +5,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { login } from "@/entities/user";
+import { userController } from "@/entities/user";
 import { pathKeys } from "@/shared/router";
 import { loginSchema, type LoginFormData } from "./schema";
 
@@ -25,7 +25,7 @@ export const AuthByCredentialsForm = () => {
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
-      await login(data.login, data.password);
+      await userController.login(data.login, data.password);
 
       navigate(fromPage);
     } catch (error) {

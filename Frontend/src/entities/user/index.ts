@@ -1,1 +1,1 @@
-export { login, logout, checkAuth, useUser, useIsAuth, useUserIsLoading } from "./model/store";
+export { userController, useUser, useIsAuth, useUserIsLoading } from "./model/store";
