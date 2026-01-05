@@ -3,11 +3,12 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import SchoolIcon from "@mui/icons-material/School";
 import { Box, Container } from "@mui/material";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import { useUser } from "@/entities/user";
 import { pathKeys } from "@/shared/router";
+import { ContentLoader } from "@/shared/ui/ContentLoader/ContentLoader";
 import { Header } from "@/shared/ui/Header/Header";
 import { Sidebar, type SidebarLink } from "@/shared/ui/Sidebar/Sidebar";
 
@@ -33,7 +34,7 @@ export const MainLayout = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Header onMenuClick={toggleSidebar} firstName={user?.firstName} lastName={user?.lastName} />
+      <Header onMenuClick={toggleSidebar} firstName={user!.firstName} lastName={user!.lastName} />
       <Sidebar open={isSidebarOpen} onClose={handleSidebarClose} links={sidebarLinks} />
       <Box
         component="main"
@@ -44,7 +45,9 @@ export const MainLayout = () => {
       >
         <Box sx={(theme) => theme.mixins.toolbar} />
         <Container>
-          <Outlet />
+          <Suspense fallback={<ContentLoader />}>
+            <Outlet />
+          </Suspense>
         </Container>
       </Box>
     </Box>

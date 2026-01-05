@@ -1,4 +1,3 @@
-// widgets/CourseDetails/ui/CourseDetails.tsx
 import {
   Typography,
   Box,

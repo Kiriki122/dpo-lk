@@ -1,4 +1,3 @@
-// widgets/CourseList/ui/CourseList.tsx
 import { Grid, Typography } from "@mui/material";
 
 import { CourseCard, type Course } from "@/entities/course";

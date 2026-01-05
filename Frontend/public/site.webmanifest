@@ -1,6 +1,6 @@
 {
-  "name": "Adnroid-name",
-  "short_name": "Adnroid-short-name",
+  "name": "Android-name",
+  "short_name": "Android-short-name",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
