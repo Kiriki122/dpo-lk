@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { lazy } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-import { pathKeys } from "@/shared/router";
+import { pathKeys } from "@/shared/config/router";
 import { MainLayout } from "@/shared/ui/MainLayout/MainLayout";
 import { ProtectedRoutes, PublicRoutes } from "../ui/AuthGuards";
 

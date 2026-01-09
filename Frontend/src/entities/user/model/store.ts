@@ -38,10 +38,9 @@ const login = async (login: string, password: string) => {
 };
 
 const logout = async () => {
-  await userApi.logout();
-  localStorage.removeItem("accessToken");
   setUser(null);
   setIsAuthenticated(false);
+  userApi.logout();
 };
 
 const checkAuth = async () => {

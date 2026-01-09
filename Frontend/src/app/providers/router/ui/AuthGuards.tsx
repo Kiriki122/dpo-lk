@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { useIsAuth } from "@/entities/user";
-import { pathKeys } from "@/shared/router";
+import { pathKeys } from "@/shared/config/router";
 
 export const ProtectedRoutes = () => {
   const isAuth = useIsAuth();

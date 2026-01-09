@@ -2,7 +2,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Toolbar, IconButton, Container, Box, Typography, Avatar, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 
-import { pathKeys } from "@/shared/router";
+import { pathKeys } from "@/shared/config/router";
 
 interface HeaderProps {
   firstName: string;

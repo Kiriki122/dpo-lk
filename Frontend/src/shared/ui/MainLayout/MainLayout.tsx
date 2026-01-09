@@ -7,7 +7,7 @@ import { Suspense, useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import { useUser } from "@/entities/user";
-import { pathKeys } from "@/shared/router";
+import { pathKeys } from "@/shared/config/router";
 import { ContentLoader } from "@/shared/ui/ContentLoader/ContentLoader";
 import { Header } from "@/shared/ui/Header/Header";
 import { Sidebar, type SidebarLink } from "@/shared/ui/Sidebar/Sidebar";

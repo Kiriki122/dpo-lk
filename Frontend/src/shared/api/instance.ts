@@ -1,7 +1,7 @@
 import axios, { AxiosError, type CreateAxiosDefaults } from "axios";
 
+import { type RefreshResponse, userController } from "@/entities/user";
 import { API_URL } from "../config/env";
-import type { RefreshResponse } from "./types";
 
 const axiosOptions: CreateAxiosDefaults = {
   baseURL: API_URL,
@@ -34,12 +34,13 @@ privateApi.interceptors.response.use(
     if (error.response?.status === 401 && error.config && !error.config._isRetry) {
       originalRequest._isRetry = true;
       try {
-        const response = await publicApi.get<RefreshResponse>("/refresh");
+        const response = await publicApi.get<RefreshResponse>("/users/refresh");
         localStorage.setItem("accessToken", response.data.accessToken);
         return privateApi.request(originalRequest);
       } catch (error) {
         const axiosError = error as AxiosError;
         console.error("API Error: ", axiosError.message || axiosError.response?.statusText);
+        userController.logout();
       }
     }
 

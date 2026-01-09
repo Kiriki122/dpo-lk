@@ -15,8 +15,8 @@ const checkAuth = async () => {
 };
 
 const logout = async () => {
-  await privateApi.post(`${BASE_URL}/logout`);
   localStorage.removeItem("accessToken");
+  privateApi.post(`${BASE_URL}/logout`);
 };
 
 export const userApi = {
