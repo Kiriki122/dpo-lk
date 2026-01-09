@@ -3,7 +3,6 @@ import { create } from "zustand";
 import { userApi } from "../api/api";
 
 import type { User } from "../model/types";
-import type { AxiosError } from "axios";
 
 interface UserState {
   user: User | null;
@@ -32,15 +31,10 @@ const setIsAuthenticated = (isAuthenticated: boolean) => useUserStore.getState()
 const setIsLoading = (isLoading: boolean) => useUserStore.getState().setIsLoading(isLoading);
 
 const login = async (login: string, password: string) => {
-  try {
-    const response = await userApi.login(login, password);
-    localStorage.setItem("accessToken", response.accessToken);
-    setUser(response.user);
-    setIsAuthenticated(true);
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  const response = await userApi.login(login, password);
+  localStorage.setItem("accessToken", response.accessToken);
+  setUser(response.user);
+  setIsAuthenticated(true);
 };
 
 const logout = async () => {
@@ -59,7 +53,7 @@ const checkAuth = async () => {
     setUser(data.user);
     setIsAuthenticated(true);
   } catch (error) {
-    const e = error as AxiosError;
+    const e = error as Error;
     console.error("Пользователь не авторизован:", e.message);
   } finally {
     setIsLoading(false);

@@ -8,24 +8,19 @@ class UserService {
   async registration(firstName, lastName, middleName, email, phone, password) {
     const candidate_email = await User.findOne({ where: { email } });
     if (candidate_email) {
-      throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`);
+      throw ApiError.Conflict(`Пользователь с почтовым адресом ${email} уже существует`);
     }
 
     const candidate_phone = await User.findOne({ where: { phone } });
     if (candidate_phone) {
-      throw ApiError.BadRequest(`Пользователь с номером телефона ${phone} уже существует`);
+      throw ApiError.Conflict(`Пользователь с номером телефона ${phone} уже существует`);
     }
 
     const hashPassword = await bcrypt.hash(password, 3);
 
-    const user = await User.create({ firstName, lastName, middleName, email, phone, password: hashPassword });
+    await User.create({ firstName, lastName, middleName, email, phone, password: hashPassword });
 
-    const userDto = new UserDto(user);
-    const tokens = tokenService.generateTokens({ ...userDto });
-
-    await tokenService.saveToken(user.id, tokens.refreshToken);
-
-    return { ...tokens, user: userDto };
+    return { success: true, message: "Пользователь успешно зарегистрирован" };
   }
 
   async login(email, password) {

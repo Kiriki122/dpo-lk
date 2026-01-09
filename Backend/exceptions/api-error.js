@@ -23,4 +23,8 @@ module.exports = class ApiError extends Error {
   static NotFound() {
     return new ApiError(404, "Такого маршрута не существует");
   }
+
+  static Conflict(message, errors = []) {
+    return new ApiError(409, message, errors);
+  }
 };
