@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
-import type { User } from "@/shared/types/user";
 import { userApi } from "../api/api";
 
+import type { User } from "../model/types";
 import type { AxiosError } from "axios";
 
 interface UserState {

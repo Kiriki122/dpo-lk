@@ -1,6 +1,5 @@
 import { privateApi, publicApi } from "@/shared/api/instance";
-import { RefreshResponseSchema, type RefreshResponse } from "@/shared/api/types";
-import { LoginResponseSchema, type LoginResponse } from "./types";
+import { LoginResponseSchema, RefreshResponseSchema, type LoginResponse, type RefreshResponse } from "./types";
 
 const BASE_URL = "/users";
 
