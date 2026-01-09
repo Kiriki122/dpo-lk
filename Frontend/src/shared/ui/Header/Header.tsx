@@ -5,12 +5,11 @@ import { Link } from "react-router-dom";
 import { pathKeys } from "@/shared/config/router";
 
 interface HeaderProps {
-  firstName: string;
-  lastName: string;
+  firstName: string | undefined;
   onMenuClick: () => void;
 }
 
-export const Header = ({ firstName, lastName, onMenuClick }: HeaderProps) => {
+export const Header = ({ firstName, onMenuClick }: HeaderProps) => {
   return (
     <AppBar position="fixed" elevation={4} sx={{ top: 0, zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
@@ -24,9 +23,9 @@ export const Header = ({ firstName, lastName, onMenuClick }: HeaderProps) => {
           <Box sx={{ flexGrow: 1 }} />
           <Stack direction="row" spacing={2} alignItems="center">
             <Typography variant="subtitle1" noWrap>
-              {lastName} {firstName}
+              {firstName || "User"}
             </Typography>
-            <Avatar alt={firstName + " " + lastName}> {lastName?.charAt(0) + "" + firstName?.charAt(0)}</Avatar>
+            <Avatar alt={firstName || "User"}> {firstName?.charAt(0) || "U"}</Avatar>
           </Stack>
         </Container>
       </Toolbar>

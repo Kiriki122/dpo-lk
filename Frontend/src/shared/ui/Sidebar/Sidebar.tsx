@@ -14,19 +14,19 @@ import {
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
-export interface SidebarLink {
+export type SidebarLink = {
   text: string;
   path: string;
   icon: React.ReactElement;
-}
+};
 
-interface SidebarProps {
+type SidebarProps = {
   open: boolean;
-  links: SidebarLink[];
+  links: SidebarLink[] | undefined;
   onClose?: () => void;
   width?: number;
   miniWidth?: number;
-}
+};
 
 const openedMixin = (theme: Theme, width: number): CSSObject => ({
   width: width,
@@ -82,7 +82,7 @@ export const Sidebar = ({ open, links, onClose, width = 300, miniWidth = 60 }: S
 
   const drawerContent = (
     <List>
-      {links.map((link) => (
+      {links?.map((link) => (
         <ListItem key={link.text} disablePadding sx={{ display: "block" }}>
           <ListItemButton
             component={NavLink}
