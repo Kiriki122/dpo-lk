@@ -1,21 +1,21 @@
-export interface CourseModule {
-  id: number;
-  title: string;
-  totalHours: number;
-  lectureHours: number;
-  practiceHours: number;
-  selfStudyHours: number;
-}
+import { z } from "zod";
 
-// Comment: будет ли статус "недоступен" и "в обработке"?
-export type CourseStatus = "enrolled" | "available";
+export const CourseModuleSchema = z.object({
+  title: z.string(),
+  hours: z.number(),
+});
 
-export interface Course {
-  id: number;
-  title: string;
-  durationHours: number;
-  format: "Онлайн" | "Офлайн" | "Смешанный";
-  description: string;
-  modules: CourseModule[];
-  status: CourseStatus;
-}
+export const CourseSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  hours: z.number(),
+  description: z.string().nullable().optional(),
+
+  mode: z.string().nullable().optional(),
+  category: z.string().nullable().optional(),
+  duration: z.string().nullable().optional(),
+
+  modules: z.array(CourseModuleSchema).default([]),
+});
+
+export type Course = z.infer<typeof CourseSchema>;
