@@ -1,0 +1,44 @@
+const axios = require("axios");
+const { OneCResponseSchema } = require("./validation/course.schema");
+const { th } = require("zod/v4/locales");
+
+class OneCService {
+  constructor() {
+    this.baseUrl = process.env.ONEC_URL;
+    this.auth = {
+      username: process.env.ONEC_USER,
+      password: process.env.ONEC_PASSWORD,
+    };
+  }
+
+  async fetchCourses() {
+    try {
+      console.log("Запрос курсов из 1С 🛫");
+      const response = await axios.get(`${this.baseUrl}/courses`, {
+        auth: this.auth,
+        timeout: 10000,
+      });
+
+      const validatedData = OneCResponseSchema.parse(response.data);
+
+      console.log(`Получено ${validatedData.length} курсов из 1С.`);
+      return validatedData;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status || "No Status";
+        const statusText = error.response?.statusText || "Сервер не доступен";
+        throw new Error(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
+      }
+
+      if (error instanceof z.ZodError) {
+        const errorDetails = error.errors.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
+
+        throw new Error(`Данные из 1С не соответствуют схеме: ${errorDetails}`);
+      }
+
+      throw error;
+    }
+  }
+}
+
+module.exports = new OneCService();
