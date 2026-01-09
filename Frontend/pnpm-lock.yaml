@@ -26,6 +26,9 @@ importers:
       '@mui/material':
         specifier: ^7.3.4
         version: 7.3.4(@emotion/react@11.14.0(@types/react@19.1.16)(react@19.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.16)(react@19.1.1))(@types/react@19.1.16)(react@19.1.1))(@types/react@19.1.16)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@tanstack/react-query':
+        specifier: ^5.90.16
+        version: 5.90.16(react@19.1.1)
       '@types/lodash.debounce':
         specifier: ^4.0.9
         version: 4.0.9
@@ -711,6 +714,14 @@ packages:
 
   '@standard-schema/utils@0.3.0':
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
+
+  '@tanstack/query-core@5.90.16':
+    resolution: {integrity: sha512-MvtWckSVufs/ja463/K4PyJeqT+HMlJWtw6PrCpywznd2NSgO3m4KwO9RqbFqGg6iDE8vVMFWMeQI4Io3eEYww==}
+
+  '@tanstack/react-query@5.90.16':
+    resolution: {integrity: sha512-bpMGOmV4OPmif7TNMteU/Ehf/hoC0Kf98PDc0F4BZkFrEapRMEqI/V6YS0lyzwSV6PQpY1y4xxArUIfBW5LVxQ==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -2552,6 +2563,13 @@ snapshots:
   '@rtsao/scc@1.1.0': {}
 
   '@standard-schema/utils@0.3.0': {}
+
+  '@tanstack/query-core@5.90.16': {}
+
+  '@tanstack/react-query@5.90.16(react@19.1.1)':
+    dependencies:
+      '@tanstack/query-core': 5.90.16
+      react: 19.1.1
 
   '@types/babel__core@7.20.5':
     dependencies:

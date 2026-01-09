@@ -6,6 +6,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
+import { QueryProvider } from "./providers/query";
 import { AppRouter } from "./providers/router";
 
 const theme = createTheme({
@@ -24,7 +25,9 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline enableColorScheme />
-      <AppRouter />
+      <QueryProvider>
+        <AppRouter />
+      </QueryProvider>
     </ThemeProvider>
   );
 }
