@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { userController } from "@/entities/user";
-import { pathKeys } from "@/shared/config/router";
+import { pathKeys } from "@/shared/config/routes";
 import { loginSchema, type LoginFormData } from "./schema";
 
 export const AuthByCredentialsForm = () => {

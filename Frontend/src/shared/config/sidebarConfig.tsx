@@ -3,7 +3,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import SchoolIcon from "@mui/icons-material/School";
 
-import { pathKeys } from "@/shared/config/router";
+import { pathKeys } from "@/shared/config/routes";
 import { type SidebarLink } from "@/shared/ui/Sidebar/Sidebar";
 
 export const sidebarLinks: SidebarLink[] = [

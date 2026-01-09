@@ -4,7 +4,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { MainLayoutProvider } from "@/app/providers/layout/MainLayoutProvider";
 import { ProtectedRoutes, PublicRoutes } from "@/app/providers/router/ui/AuthGuards";
-import { pathKeys } from "@/shared/config/router";
+import { pathKeys } from "@/shared/config/routes";
 
 const EnrollPage = lazy(() => import("@/pages/enroll-page"));
 const LoginPage = lazy(() => import("@/pages/login"));
