@@ -10,9 +10,9 @@ interface CourseCardProps {
 
 export const CourseCard = ({ course, onClick }: CourseCardProps) => {
   return (
-    <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Card sx={{ display: "flex", flexDirection: "column" }}>
       <CardActionArea onClick={() => onClick(course)} sx={{ flexGrow: 1 }}>
-        <CardContent sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+        <CardContent sx={{ display: "flex", flexDirection: "column" }}>
           <Typography
             noWrap
             gutterBottom

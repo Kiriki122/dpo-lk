@@ -40,7 +40,8 @@ export const MainLayout = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          py: 3,
+          minWidth: 0,
         }}
       >
         <Box sx={(theme) => theme.mixins.toolbar} />
