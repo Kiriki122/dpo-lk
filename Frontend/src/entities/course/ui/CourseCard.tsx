@@ -1,5 +1,6 @@
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { Card, CardActionArea, CardContent, Box, Typography } from "@mui/material";
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { Card, CardActionArea, CardContent, Box, Typography, Chip, Divider, Button } from "@mui/material";
 
 import type { Course } from "../model/types";
 
@@ -10,22 +11,44 @@ interface CourseCardProps {
 
 export const CourseCard = ({ course, onClick }: CourseCardProps) => {
   return (
-    <Card sx={{ display: "flex", flexDirection: "column" }}>
+    <Card sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <CardActionArea onClick={() => onClick(course)} sx={{ flexGrow: 1 }}>
-        <CardContent sx={{ display: "flex", flexDirection: "column" }}>
+        <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", height: "100%" }}>
           <Typography
-            noWrap
             gutterBottom
             variant="h6"
-            sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: "2",
+              WebkitBoxOrient: "vertical",
+            }}
           >
             {course.name}
           </Typography>
-          <Box sx={{ mb: 2 }} />
-          <Box display="flex" alignItems="center" color="text.secondary" sx={{ marginTop: "auto" }}>
-            <AccessTimeIcon fontSize="small" sx={{ mr: 0.5 }} />
-            <Typography variant="body2">{course.hours} ак.ч.</Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: "5",
+              WebkitBoxOrient: "vertical",
+              textWrapStyle: "pretty",
+              flex: 1,
+            }}
+          >
+            {course.description}
+          </Typography>
+          <Divider sx={{ my: 2, width: "100%" }} />
+          <Box display="flex" alignItems="center" color="text.secondary" sx={{ mb: 2 }}>
+            <Chip icon={<AccessTimeIcon />} label={`${course.hours} ак.ч`} />
           </Box>
+          <Button variant="contained" endIcon={<ChevronRightIcon />} onClick={() => onClick(course)}>
+            Подробнее
+          </Button>
         </CardContent>
       </CardActionArea>
     </Card>
