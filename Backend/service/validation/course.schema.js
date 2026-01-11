@@ -6,7 +6,7 @@ const CourseModuleSchema = z.object({
 });
 
 const CourseFrom1CSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   name: z.string(),
   hours: z.number().or(z.string().transform(Number)),
   description: z.string().optional().nullable(),
