@@ -7,11 +7,11 @@ import { Sidebar, type SidebarLink } from "@/shared/ui/Sidebar/Sidebar";
 
 type MainLayoutProps = {
   children: React.ReactNode;
-  headerAvatar: { firstName: string | undefined; lastname: string | undefined };
+  headerTopRightSlot?: React.ReactNode;
   sidebarLinks: SidebarLink[] | undefined;
 };
 
-export const MainLayout = ({ children, headerAvatar, sidebarLinks }: MainLayoutProps) => {
+export const MainLayout = ({ children, headerTopRightSlot, sidebarLinks }: MainLayoutProps) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -24,7 +24,7 @@ export const MainLayout = ({ children, headerAvatar, sidebarLinks }: MainLayoutP
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Header onMenuClick={toggleSidebar} firstName={headerAvatar?.firstName} />
+      <Header onMenuClick={toggleSidebar} topRightslot={headerTopRightSlot} />
       <Sidebar open={isSidebarOpen} onClose={handleSidebarClose} links={sidebarLinks} />
       <Box
         component="main"

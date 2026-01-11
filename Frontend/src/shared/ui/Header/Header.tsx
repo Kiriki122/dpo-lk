@@ -1,15 +1,15 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, Toolbar, IconButton, Container, Box, Typography, Avatar, Stack } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Container, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { pathKeys } from "@/shared/config/routes";
 
 interface HeaderProps {
-  firstName: string | undefined;
+  topRightslot?: React.ReactNode;
   onMenuClick: () => void;
 }
 
-export const Header = ({ firstName, onMenuClick }: HeaderProps) => {
+export const Header = ({ topRightslot, onMenuClick }: HeaderProps) => {
   return (
     <AppBar position="fixed" elevation={4} sx={{ top: 0, zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
@@ -21,12 +21,13 @@ export const Header = ({ firstName, onMenuClick }: HeaderProps) => {
             <img src="/logo.svg" style={{ display: "block", height: "40px" }} />
           </Link>
           <Box sx={{ flexGrow: 1 }} />
-          <Stack direction="row" spacing={2} alignItems="center">
+          {topRightslot || null}
+          {/* <Stack direction="row" spacing={2} alignItems="center">
             <Typography variant="subtitle1" noWrap>
               {firstName || "User"}
             </Typography>
             <Avatar alt={firstName || "User"}> {firstName?.charAt(0) || "U"}</Avatar>
-          </Stack>
+          </Stack> */}
         </Container>
       </Toolbar>
     </AppBar>
