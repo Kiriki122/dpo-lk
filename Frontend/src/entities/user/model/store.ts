@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+import { tokenService } from "@/shared/lib/auth/token";
 import { userApi } from "../api/api";
 
 import type { User } from "../model/types";
@@ -32,7 +33,7 @@ const setIsLoading = (isLoading: boolean) => useUserStore.getState().setIsLoadin
 
 const login = async (login: string, password: string) => {
   const response = await userApi.login(login, password);
-  localStorage.setItem("accessToken", response.accessToken);
+  tokenService.setAccessToken(response.accessToken);
   setUser(response.user);
   setIsAuthenticated(true);
 };
@@ -40,6 +41,7 @@ const login = async (login: string, password: string) => {
 const logout = async () => {
   setUser(null);
   setIsAuthenticated(false);
+  tokenService.removeAccessToken();
   userApi.logout();
 };
 
@@ -47,9 +49,9 @@ const checkAuth = async () => {
   setIsLoading(true);
 
   try {
-    const data = await userApi.checkAuth();
-    localStorage.setItem("accessToken", data.accessToken);
-    setUser(data.user);
+    const response = await userApi.checkAuth();
+    tokenService.setAccessToken(response.accessToken);
+    setUser(response.user);
     setIsAuthenticated(true);
   } catch (error) {
     const e = error as Error;

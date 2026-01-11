@@ -2,6 +2,7 @@ import axios, { AxiosError, type CreateAxiosDefaults } from "axios";
 
 import { type RefreshResponse, userController } from "@/entities/user";
 import { API_URL } from "../config/env";
+import { tokenService } from "../lib/auth/token";
 
 const axiosOptions: CreateAxiosDefaults = {
   baseURL: API_URL,
@@ -17,7 +18,7 @@ export const publicApi = axios.create(axiosOptions);
 export const privateApi = axios.create(axiosOptions);
 
 privateApi.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken");
+  const token = tokenService.getAccessToken();
   if (config.headers && token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -35,7 +36,7 @@ privateApi.interceptors.response.use(
       originalRequest._isRetry = true;
       try {
         const response = await publicApi.get<RefreshResponse>("/users/refresh");
-        localStorage.setItem("accessToken", response.data.accessToken);
+        tokenService.setAccessToken(response.data.accessToken);
         return privateApi.request(originalRequest);
       } catch (error) {
         const axiosError = error as AxiosError;
