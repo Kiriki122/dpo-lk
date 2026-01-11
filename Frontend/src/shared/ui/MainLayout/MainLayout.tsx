@@ -30,12 +30,11 @@ export const MainLayout = ({ children, headerTopRightSlot, sidebarLinks }: MainL
         component="main"
         sx={{
           flexGrow: 1,
-          py: 3,
           minWidth: 0,
         }}
       >
         <Box sx={(theme) => theme.mixins.toolbar} />
-        <Container>
+        <Container sx={{ my: 3 }}>
           <Suspense fallback={<ContentLoader />}>{children}</Suspense>
         </Container>
       </Box>
