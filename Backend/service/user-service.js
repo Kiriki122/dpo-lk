@@ -72,6 +72,15 @@ class UserService {
     const users = await User.findAll();
     return users;
   }
+
+  async getUserById(id) {
+    const user = await User.findByPk(id);
+    if (!user) {
+      throw ApiError.NotFound("Пользователь не был найден");
+    }
+    const data = new UserDto(user);
+    return data;
+  }
 }
 
 module.exports = new UserService();

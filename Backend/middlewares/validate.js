@@ -42,7 +42,6 @@ const validate = (schema) => (req, res, next) => {
   } catch (err) {
     if (err instanceof ZodError) {
       const errors = formatZodErrors(err);
-      console.error("Ошибка валидации Zod (отформатированная):", errors);
       next(ApiError.BadRequest("Ошибка валидации", errors));
     } else {
       next(err);
