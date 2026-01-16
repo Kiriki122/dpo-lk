@@ -2,9 +2,9 @@ import { Typography } from "@mui/material";
 import { lazy } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-import { MainLayoutProvider } from "@/app/providers/layout/MainLayoutProvider";
-import { ProtectedRoutes, PublicRoutes } from "@/app/providers/router/ui/AuthGuards";
 import { pathKeys } from "@/shared/config/routes";
+import { MainLayoutProvider } from "../../layout/MainLayoutProvider";
+import { ProtectedRoutes, PublicRoutes } from "../ui/AuthGuards";
 
 const EnrollPage = lazy(() => import("@/pages/enroll-page"));
 const LoginPage = lazy(() => import("@/pages/login"));
