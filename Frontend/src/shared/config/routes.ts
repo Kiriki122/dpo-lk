@@ -8,4 +8,5 @@ export const pathKeys = {
   },
   documents: "/documents",
   schedule: "/schedule",
+  profile: "/profile",
 } as const;

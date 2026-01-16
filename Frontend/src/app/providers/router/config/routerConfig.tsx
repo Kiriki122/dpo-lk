@@ -11,6 +11,7 @@ const LoginPage = lazy(() => import("@/pages/login"));
 const CoursesPage = lazy(() => import("@/pages/courses-page"));
 const MyDocumentsPage = lazy(() => import("@/pages/my-documents-page"));
 const SchedulePage = lazy(() => import("@/pages/schedule-page"));
+const ProfilePage = lazy(() => import("@/pages/profile-page"));
 
 export const routerConfig = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const routerConfig = createBrowserRouter([
           { path: pathKeys.enroll.root, element: <EnrollPage /> },
           { path: pathKeys.documents, element: <MyDocumentsPage /> },
           { path: pathKeys.schedule, element: <SchedulePage /> },
+          { path: pathKeys.profile, element: <ProfilePage /> },
         ],
       },
     ],
