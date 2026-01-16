@@ -18,7 +18,7 @@ module.exports = function (req, res, next) {
 
     const [login, password] = credentials.split(":");
 
-    if (login !== process.env.SYNC_ACCESS_LOGIN || password !== process.env.SYNC_ACCESS_PASSWORD) {
+    if (login !== process.env.ONEC_USER || password !== process.env.ONEC_PASSWORD) {
       return next(ApiError.Forbidden());
     }
 
