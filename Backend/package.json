@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "predev": "docker compose up -d",
     "dev": "nodemon index.js",
-    "db": "docker compose up -d",
-    "lint": "prettier --config .prettierrc --write \"**/*.{js,jsx}\"",
-    "start:dev": "docker-compose up -d  && nodemon index.js"
+    "format": "prettier --config .prettierrc --write \"**/*.{js, json}\"",
+    "format:check": "prettier --config .prettierrc --check \"**/*.{js, json}\""
   },
   "keywords": [],
   "author": "",
