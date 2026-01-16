@@ -1,5 +1,5 @@
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Card, CardActionArea, CardContent, Box, Typography, Chip, Divider, Button } from "@mui/material";
 
 import type { Course } from "../model/types";
@@ -13,7 +13,7 @@ export const CourseCard = ({ course, onClick }: CourseCardProps) => {
   return (
     <Card sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <CardActionArea onClick={() => onClick(course)} sx={{ flexGrow: 1 }}>
-        <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", height: "100%" }}>
+        <CardContent sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
           <Typography
             gutterBottom
             variant="h6"
@@ -29,6 +29,7 @@ export const CourseCard = ({ course, onClick }: CourseCardProps) => {
           </Typography>
           <Typography
             variant="body2"
+            gutterBottom
             color="text.secondary"
             sx={{
               overflow: "hidden",
@@ -42,8 +43,8 @@ export const CourseCard = ({ course, onClick }: CourseCardProps) => {
           >
             {course.description}
           </Typography>
-          <Divider sx={{ my: 2, width: "100%" }} />
-          <Box display="flex" alignItems="center" color="text.secondary" sx={{ mb: 2 }}>
+          <Divider sx={{ my: 2 }} />
+          <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mb: 2 }}>
             <Chip icon={<AccessTimeIcon />} label={`${course.hours} ак.ч`} />
           </Box>
           <Button variant="contained" endIcon={<ChevronRightIcon />} onClick={() => onClick(course)}>
