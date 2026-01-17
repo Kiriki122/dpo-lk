@@ -1,6 +1,6 @@
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Card, CardActionArea, CardContent, Box, Typography, Chip, Divider, Button } from "@mui/material";
+import { Card, CardActionArea, CardContent, Box, Typography, Chip, Button, CardActions } from "@mui/material";
 
 import type { Course } from "../model/types";
 
@@ -11,9 +11,24 @@ interface CourseCardProps {
 
 export const CourseCard = ({ course, onClick }: CourseCardProps) => {
   return (
-    <Card sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <CardActionArea onClick={() => onClick(course)} sx={{ flexGrow: 1 }}>
-        <CardContent sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <Card sx={{ display: "flex", flexDirection: "column", height: "100%" }} raised>
+      <CardActionArea
+        onClick={() => onClick(course)}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "stretch",
+          alignItems: "stretch",
+          flexGrow: 1,
+          "&[data-active]": {
+            backgroundColor: "action.selected",
+            "&:hover": {
+              backgroundColor: "action.selectedHover",
+            },
+          },
+        }}
+      >
+        <CardContent sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
           <Typography
             gutterBottom
             variant="h6"
@@ -43,14 +58,22 @@ export const CourseCard = ({ course, onClick }: CourseCardProps) => {
           >
             {course.description}
           </Typography>
-          <Divider sx={{ my: 2 }} />
-          <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mb: 2 }}>
+          <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mt: 2 }}>
             <Chip icon={<AccessTimeIcon />} label={`${course.hours} ак.ч`} />
           </Box>
-          <Button variant="contained" endIcon={<ChevronRightIcon />} onClick={() => onClick(course)}>
+        </CardContent>
+
+        <CardActions>
+          <Button
+            component="div"
+            variant="contained"
+            endIcon={<ChevronRightIcon />}
+            fullWidth
+            onClick={() => onClick(course)}
+          >
             Подробнее
           </Button>
-        </CardContent>
+        </CardActions>
       </CardActionArea>
     </Card>
   );

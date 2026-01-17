@@ -27,7 +27,7 @@ export const CourseList = ({ courses, onCourseClick }: CourseListProps) => {
   return (
     <Grid container spacing={3} alignItems="stretch">
       {courses.map((course) => (
-        <Grid key={course.id} size={{ xs: 12, md: 6, lg: 4 }}>
+        <Grid key={course.id} size={{ xs: 12, md: 6, lg: 4 }} sx={{ flexGrow: 1 }}>
           <CourseCard course={course} onClick={onCourseClick} />
         </Grid>
       ))}
