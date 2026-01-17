@@ -56,7 +56,7 @@ export const SidebarLinksList = ({ links, open, onLinkClick }: SidebarLinksListP
               >
                 <IconComponent />
               </ListItemIcon>
-              <ListItemText primary={link.text} sx={{ display: open ? "block" : "none" }} />
+              <ListItemText primary={link.text} sx={{ transform: open ? "scaleX(1)" : "scaleX(0)" }} />
             </ListItemButton>
           </ListItem>
         );

@@ -1,4 +1,3 @@
-// @/share/sidebar/config/sidebarConfig.tsx
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DescriptionIcon from "@mui/icons-material/Description";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
