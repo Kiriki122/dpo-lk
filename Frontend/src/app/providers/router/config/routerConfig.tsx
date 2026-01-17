@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import { lazy } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
@@ -12,6 +11,7 @@ const CoursesPage = lazy(() => import("@/pages/courses-page"));
 const MyDocumentsPage = lazy(() => import("@/pages/my-documents-page"));
 const SchedulePage = lazy(() => import("@/pages/schedule-page"));
 const ProfilePage = lazy(() => import("@/pages/profile-page"));
+const NotFoundPage = lazy(() => import("@/pages/not-found-page"));
 
 export const routerConfig = createBrowserRouter([
   {
@@ -35,5 +35,5 @@ export const routerConfig = createBrowserRouter([
     element: <PublicRoutes />,
     children: [{ path: pathKeys.login, element: <LoginPage /> }],
   },
-  { path: "*", element: <Typography>404 Not Found</Typography> },
+  { path: "*", element: <NotFoundPage /> },
 ]);
