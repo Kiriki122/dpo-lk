@@ -1,1 +1,0 @@
-export { AuthByCredentialsForm } from "./ui";

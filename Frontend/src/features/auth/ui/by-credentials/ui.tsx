@@ -5,9 +5,9 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { userController } from "@/entities/user";
 import { pathKeys } from "@/shared/config/routes";
-import { loginSchema, type LoginFormData } from "./schema";
+import { authApi } from "../../api/api";
+import { loginFormSchema, type LoginFormData } from "./schema";
 
 export const AuthByCredentialsForm = () => {
   const navigate = useNavigate();
@@ -18,14 +18,14 @@ export const AuthByCredentialsForm = () => {
     setError,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(loginFormSchema),
   });
 
   const fromPage = location.state?.from?.pathname || pathKeys.root;
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
-      await userController.login(data.login, data.password);
+      await authApi.login(data.login, data.password);
 
       navigate(fromPage);
     } catch (error) {

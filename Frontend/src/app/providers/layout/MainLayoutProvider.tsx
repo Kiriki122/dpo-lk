@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
 
-import { useUser } from "@/entities/user";
+import { userStore } from "@/entities/user";
 import { sidebarLinks } from "@/shared/config/sidebarConfig";
 import { NameWithAvatar } from "@/shared/ui/Header/NameWithAvatar";
 import { MainLayout } from "@/shared/ui/MainLayout/MainLayout";
 
 export const MainLayoutProvider = () => {
-  const user = useUser();
+  const user = userStore.useUser();
   return (
     <MainLayout headerTopRightSlot={<NameWithAvatar name={user?.firstName} />} sidebarLinks={sidebarLinks}>
       <Outlet />

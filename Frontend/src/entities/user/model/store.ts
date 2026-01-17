@@ -1,68 +1,31 @@
 import { create } from "zustand";
 
-import { tokenService } from "@/shared/lib/auth/token";
-import { userApi } from "../api/api";
-
 import type { User } from "../model/types";
 
-interface UserState {
+type UserStore = {
   user: User | null;
-  isAuthenticated: boolean;
   isLoading: boolean;
-  setUser: (user: User | null) => void;
-  setIsAuthenticated: (isAuthenticated: boolean) => void;
-  setIsLoading: (isLoading: boolean) => void;
-}
+  setUser: (user: User) => void;
+  clearUser: () => void;
+};
 
-const useUserStore = create<UserState>((set) => ({
+const useUserStore = create<UserStore>((set) => ({
   user: null,
-  isAuthenticated: false,
   isLoading: true,
-  setUser: (user: User | null) => set({ user }),
-  setIsAuthenticated: (isAuthenticated: boolean) => set({ isAuthenticated }),
-  setIsLoading: (isLoading: boolean) => set({ isLoading }),
+  setUser: (user: User) => set({ user, isLoading: false }),
+  clearUser: () => set({ user: null, isLoading: false }),
 }));
 
-export const useUser = () => useUserStore((state) => state.user);
-export const useIsAuth = () => useUserStore((state) => state.isAuthenticated);
-export const useUserIsLoading = () => useUserStore((state) => state.isLoading);
+const useUser = () => useUserStore((state) => state.user);
+const setUser = (user: User) => useUserStore.getState().setUser(user);
+const clearUser = () => useUserStore.getState().clearUser();
 
-const setUser = (user: User | null) => useUserStore.getState().setUser(user);
-const setIsAuthenticated = (isAuthenticated: boolean) => useUserStore.getState().setIsAuthenticated(isAuthenticated);
-const setIsLoading = (isLoading: boolean) => useUserStore.getState().setIsLoading(isLoading);
+const useIsLoading = () => useUserStore((state) => state.isLoading);
 
-const login = async (login: string, password: string) => {
-  const response = await userApi.login(login, password);
-  tokenService.setAccessToken(response.accessToken);
-  setUser(response.user);
-  setIsAuthenticated(true);
-};
+export const userStore = {
+  useUser,
+  setUser,
+  clearUser,
 
-const logout = async () => {
-  setUser(null);
-  setIsAuthenticated(false);
-  tokenService.removeAccessToken();
-  userApi.logout();
-};
-
-const checkAuth = async () => {
-  setIsLoading(true);
-
-  try {
-    const response = await userApi.checkAuth();
-    tokenService.setAccessToken(response.accessToken);
-    setUser(response.user);
-    setIsAuthenticated(true);
-  } catch (error) {
-    const e = error as Error;
-    console.error("Пользователь не авторизован:", e.message);
-  } finally {
-    setIsLoading(false);
-  }
-};
-
-export const userController = {
-  login,
-  logout,
-  checkAuth,
+  useIsLoading,
 };

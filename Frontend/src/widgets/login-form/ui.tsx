@@ -1,7 +1,7 @@
 import { Typography, Link, Paper } from "@mui/material";
 import React, { useState } from "react";
 
-import { AuthByCredentialsForm } from "@/features/auth/by-credentials";
+import { AuthByCredentialsForm } from "@/features/auth";
 
 export const LoginFormWidget = () => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);

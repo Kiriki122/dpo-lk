@@ -1,8 +1,8 @@
 import axios, { AxiosError, type CreateAxiosDefaults } from "axios";
 
-import { type RefreshResponse, userController } from "@/entities/user";
+import { RefreshResponseSchema, type RefreshResponse } from "@/features/auth";
 import { API_URL } from "../config/env";
-import { tokenService } from "../lib/auth/token";
+import { sessionStore } from "../session/model/store";
 
 const axiosOptions: CreateAxiosDefaults = {
   baseURL: API_URL,
@@ -18,7 +18,7 @@ export const publicApi = axios.create(axiosOptions);
 export const privateApi = axios.create(axiosOptions);
 
 privateApi.interceptors.request.use((config) => {
-  const token = tokenService.getAccessToken();
+  const token = sessionStore.getAccessToken();
   if (config.headers && token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -36,12 +36,13 @@ privateApi.interceptors.response.use(
       originalRequest._isRetry = true;
       try {
         const response = await publicApi.get<RefreshResponse>("/users/refresh");
-        tokenService.setAccessToken(response.data.accessToken);
+        const data = RefreshResponseSchema.parse(response.data)
+        sessionStore.setToken(data.accessToken);
         return privateApi.request(originalRequest);
       } catch (error) {
         const axiosError = error as AxiosError;
         console.error("API Error: ", axiosError.message || axiosError.response?.statusText);
-        userController.logout();
+        sessionStore.clearToken();
       }
     }
 

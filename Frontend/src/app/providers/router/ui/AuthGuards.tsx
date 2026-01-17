@@ -1,10 +1,10 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import { useIsAuth } from "@/entities/user";
 import { pathKeys } from "@/shared/config/routes";
+import { sessionStore } from "@/shared/session";
 
 export const ProtectedRoutes = () => {
-  const isAuth = useIsAuth();
+  const isAuth = sessionStore.useIsAuthenticated();
   const location = useLocation();
 
   if (!isAuth) {
@@ -15,7 +15,7 @@ export const ProtectedRoutes = () => {
 };
 
 export const PublicRoutes = () => {
-  const isAuth = useIsAuth();
+  const isAuth = sessionStore.useIsAuthenticated();
 
   if (isAuth) {
     return <Navigate to={pathKeys.root} replace />;

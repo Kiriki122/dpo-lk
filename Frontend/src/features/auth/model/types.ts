@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { UserSchema } from "../model/types";
+import { UserSchema } from "@/entities/user";
 
 export const LoginResponseSchema = z.object({
   user: UserSchema,
