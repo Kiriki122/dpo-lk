@@ -1,5 +1,3 @@
-import { AxiosError } from "axios";
-
 import { userStore } from "@/entities/user";
 import { publicApi, privateApi } from "@/shared/api/instance";
 import { sessionStore } from "@/shared/session";
@@ -15,18 +13,10 @@ export const authApi = {
     userStore.setUser(data.user);
   },
   refresh: async () => {
-    try {
-      const response = await publicApi.get<RefreshResponse>(`${BASE_URL}/refresh`);
-      const data = RefreshResponseSchema.parse(response.data);
-      sessionStore.setToken(data.accessToken);
-      userStore.setUser(data.user);
-    } catch (error) {
-      sessionStore.clearToken();
-      userStore.clearUser();
-      if (error instanceof AxiosError) {
-        console.error("Refresh call error: ", error.message);
-      }
-    }
+    const response = await privateApi.get<RefreshResponse>(`${BASE_URL}/refresh`);
+    const data = RefreshResponseSchema.parse(response.data);
+    sessionStore.setToken(data.accessToken);
+    userStore.setUser(data.user);
   },
   logout: async () => {
     sessionStore.clearToken();
