@@ -1,3 +1,5 @@
+import type { ObjectPropertyPaths } from "../types/common";
+
 export const pathKeys = {
   root: "/",
   login: "/login",
@@ -10,3 +12,5 @@ export const pathKeys = {
   schedule: "/schedule",
   profile: "/profile",
 } as const;
+
+export type AppPath = ObjectPropertyPaths<typeof pathKeys>;

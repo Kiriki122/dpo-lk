@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export const Header = ({ topRightslot, onMenuClick }: HeaderProps) => {
   return (
-    <AppBar position="fixed" elevation={4} sx={{ top: 0, zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <AppBar position="fixed" elevation={4} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
         <IconButton color="inherit" aria-label="open drawer" onClick={onMenuClick}>
           <MenuIcon />

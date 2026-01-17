@@ -36,7 +36,7 @@ privateApi.interceptors.response.use(
       originalRequest._isRetry = true;
       try {
         const response = await publicApi.get<RefreshResponse>("/users/refresh");
-        const data = RefreshResponseSchema.parse(response.data)
+        const data = RefreshResponseSchema.parse(response.data);
         sessionStore.setToken(data.accessToken);
         return privateApi.request(originalRequest);
       } catch (error) {

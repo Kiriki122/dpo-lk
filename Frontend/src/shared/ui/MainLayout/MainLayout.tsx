@@ -1,31 +1,38 @@
-import { Box, Container } from "@mui/material";
-import { Suspense, useState } from "react";
+import { Box, Container, useMediaQuery, useTheme } from "@mui/material";
+import { Suspense, useEffect, useState } from "react";
 
 import { ContentLoader } from "@/shared/ui/ContentLoader/ContentLoader";
 import { Header } from "@/shared/ui/Header/Header";
-import { Sidebar, type SidebarLink } from "@/shared/ui/Sidebar/Sidebar";
+import { AppSidebar, sidebarLinks } from "../Sidebar";
 
 type MainLayoutProps = {
   children: React.ReactNode;
   headerTopRightSlot?: React.ReactNode;
-  sidebarLinks: SidebarLink[] | undefined;
 };
 
-export const MainLayout = ({ children, headerTopRightSlot, sidebarLinks }: MainLayoutProps) => {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+export const MainLayout = ({ children, headerTopRightSlot }: MainLayoutProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [isSidebarOpen, setSidebarOpen] = useState(!isMobile);
 
   const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
+    setSidebarOpen((prev) => !prev);
   };
 
   const handleSidebarClose = () => {
     setSidebarOpen(false);
   };
 
+  useEffect(() => {
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  }, [isMobile]);
+
   return (
     <Box sx={{ display: "flex" }}>
       <Header onMenuClick={toggleSidebar} topRightslot={headerTopRightSlot} />
-      <Sidebar open={isSidebarOpen} onClose={handleSidebarClose} links={sidebarLinks} />
+      <AppSidebar open={isSidebarOpen} onClose={handleSidebarClose} links={sidebarLinks} />
       <Box
         component="main"
         sx={{
