@@ -76,10 +76,32 @@ class UserService {
   async getUserById(id) {
     const user = await User.findByPk(id);
     if (!user) {
-      throw ApiError.NotFound("Пользователь не был найден");
+      throw ApiError.NotFound("Пользователь не найден");
     }
     const data = new UserDto(user);
     return data;
+  }
+
+  async changePassword(id, oldPassword, newPassword) {
+    const user = await User.findByPk(id);
+    if (!user) {
+      throw ApiError.NotFound("Пользователь не найден");
+    }
+
+    const isPassEquals = await bcrypt.compare(oldPassword, user.password);
+    if (!isPassEquals) {
+      throw ApiError.BadRequest("Неверный старый пароль");
+    }
+
+    const hashPassword = await bcrypt.hash(newPassword, 3);
+    user.password = hashPassword;
+    await user.save();
+    
+    const userDto = new UserDto(user);
+    const tokens = tokenService.generateTokens({ ...userDto });
+
+    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+    return { ...tokens, user: userDto };
   }
 }
 

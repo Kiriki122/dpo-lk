@@ -18,6 +18,17 @@ class UserController {
       next(e);
     }
   }
+
+  async changePassword(req, res, next) {
+    try {
+      const { oldPassword, newPassword } = req.body;
+      const userData = await userService.changePassword(req.user.id, oldPassword, newPassword);
+      res.cookie("refreshToken", userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+      res.json({ user: userData.user, accessToken: userData.accessToken });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new UserController();
