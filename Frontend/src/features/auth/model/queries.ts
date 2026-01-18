@@ -78,6 +78,12 @@ export const useLogout = () => {
       queryClient.clear();
       navigate(pathKeys.login, { replace: true });
     },
+    onError: () => {
+      sessionStore.clearToken();
+      userStore.clearUser();
+      queryClient.clear();
+      navigate(pathKeys.login, { replace: true });
+    },
   });
 
   return { logout, isPending };
