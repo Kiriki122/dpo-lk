@@ -18,7 +18,7 @@ export const Header = ({ topRightslot, onMenuClick }: HeaderProps) => {
         </IconButton>
         <Container maxWidth="lg" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link to={pathKeys.root}>
-            <img src="/logo.svg" style={{ display: "block", height: "40px" }} />
+            <img src="/logo.svg" style={{ display: "block", height: "40px" }} alt="Stankin logo, link to main page" />
           </Link>
           {topRightslot}
         </Container>

@@ -55,10 +55,8 @@ export const useRefresh = () => {
     onSuccess: (data: RefreshResponse) => {
       sessionStore.setToken(data.accessToken);
       userStore.setUser(data.user);
-      console.log("Token refreshed successfully");
     },
-    onError: (error) => {
-      console.log("Token refresh failed, logging out:", error.message);
+    onError: () => {
       sessionStore.clearToken();
       userStore.clearUser();
     },
@@ -78,9 +76,6 @@ export const useLogout = () => {
       userStore.clearUser();
       queryClient.clear();
       navigate(pathKeys.login, { replace: true });
-    },
-    onError: (error) => {
-      console.error("Logout failed", error);
     },
   });
 
