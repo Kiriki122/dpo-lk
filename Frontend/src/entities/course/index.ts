@@ -1,4 +1,3 @@
-export { useFetchCourses } from "./api/courseApi";
 export { CourseCard } from "./ui/CourseCard";
 export { CourseAccordionItem } from "./ui/CourseAccordionItem";
 export { useCoursesQuery, useCourseDetailQuery } from "./model/queries";

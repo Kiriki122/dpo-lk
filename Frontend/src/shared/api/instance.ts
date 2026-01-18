@@ -1,6 +1,5 @@
 import axios, { AxiosError, type CreateAxiosDefaults } from "axios";
 
-import { RefreshResponseSchema, type RefreshResponse } from "@/features/auth";
 import { API_URL } from "../config/env";
 import { sessionStore } from "../session/model/store";
 
@@ -35,9 +34,8 @@ privateApi.interceptors.response.use(
     if (error.response?.status === 401 && error.config && !error.config._isRetry) {
       originalRequest._isRetry = true;
       try {
-        const response = await publicApi.get<RefreshResponse>("/auth/refresh");
-        const data = RefreshResponseSchema.parse(response.data);
-        sessionStore.setToken(data.accessToken);
+        const response = await publicApi.get<{accessToken: string}>("/auth/refresh");
+        sessionStore.setToken(response.data.accessToken);
         return privateApi.request(originalRequest);
       } catch (error) {
         const axiosError = error as AxiosError & { response?: { data: { message: string } } };
