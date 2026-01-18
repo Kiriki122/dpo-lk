@@ -40,8 +40,8 @@ privateApi.interceptors.response.use(
         sessionStore.setToken(data.accessToken);
         return privateApi.request(originalRequest);
       } catch (error) {
-        const axiosError = error as AxiosError;
-        console.error("API Error: ", axiosError.message || axiosError.response?.statusText);
+        const axiosError = error as AxiosError & { response?: { data: { message: string } } };
+        console.log("Interceptors refresh Error: ", axiosError.response?.data.message || axiosError.message);
         sessionStore.clearToken();
       }
     }

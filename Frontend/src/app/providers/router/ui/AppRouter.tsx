@@ -1,17 +1,16 @@
 import { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 
-import { userStore } from "@/entities/user";
-import { authApi } from "@/features/auth";
+import { useRefresh } from "@/features/auth";
 import { PageLoader } from "@/shared/ui/PageLoader/PageLoader";
 import { routerConfig } from "../config/routerConfig";
 
 export const AppRouter = () => {
-  const isLoading = userStore.useIsLoading();
+  const { refresh, isPending: isLoading } = useRefresh();
 
   useEffect(() => {
-    authApi.refresh();
-  }, []);
+    refresh();
+  }, [refresh]);
 
   if (isLoading) {
     return <PageLoader />;

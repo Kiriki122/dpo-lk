@@ -1,7 +1,7 @@
 import { Typography, Link, Paper } from "@mui/material";
 import React, { useState } from "react";
 
-import { AuthByCredentialsForm } from "@/features/auth";
+import { LoginForm } from "@/features/auth";
 
 export const LoginFormWidget = () => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -17,7 +17,7 @@ export const LoginFormWidget = () => {
         Вход
       </Typography>
 
-      <AuthByCredentialsForm />
+      <LoginForm />
 
       {!showForgotPassword ? (
         <Link href="#" variant="body2" onClick={handleForgotPasswordClick}>
