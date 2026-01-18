@@ -8,7 +8,7 @@ import { useLogin } from "../../model/queries";
 import { loginFormSchema, type LoginFormData } from "../../model/types";
 
 export const LoginForm = () => {
-  const { login, isPending, error: serverError } = useLogin();
+  const { login, isPending, isError, error: serverError } = useLogin();
   const location = useLocation();
   const fromPage = location.state?.from?.pathname || pathKeys.root;
 
@@ -39,6 +39,7 @@ export const LoginForm = () => {
             autoFocus
             error={!!error}
             helperText={error?.message}
+            disabled={isPending}
           />
         )}
       />
@@ -56,15 +57,14 @@ export const LoginForm = () => {
             id="password"
             error={!!error}
             helperText={error?.message}
+            disabled={isPending}
           />
         )}
       />
-      <Collapse in={!!serverError}>
-        {serverError && (
-          <Alert severity="error" sx={{ mt: 2, width: "100%" }}>
-            {serverError}
-          </Alert>
-        )}
+      <Collapse in={isError}>
+        <Alert severity="error" sx={{ mt: isError ? 2 : 0 }}>
+          {serverError}
+        </Alert>
       </Collapse>
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} loading={isPending}>
         Войти

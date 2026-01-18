@@ -96,7 +96,7 @@ class UserService {
     const hashPassword = await bcrypt.hash(newPassword, 3);
     user.password = hashPassword;
     await user.save();
-    
+
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
 

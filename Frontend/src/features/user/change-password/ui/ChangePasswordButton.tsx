@@ -12,7 +12,7 @@ export const ChangePasswordButton = () => {
 
   return (
     <>
-      <Button variant="outlined" startIcon={<VpnKeyIcon />} onClick={handleOpen} size="large">
+      <Button variant="outlined" startIcon={<VpnKeyIcon />} onClick={handleOpen}>
         Сменить пароль
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>

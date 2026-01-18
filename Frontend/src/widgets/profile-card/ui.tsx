@@ -14,8 +14,8 @@ import {
 } from "@mui/material";
 
 import { LogoutButton } from "@/features/auth";
-import { ChangePasswordButton } from "@/features/profile/change-password";
 import { useUserProfile } from "@/features/profile/get-user-profile";
+import { ChangePasswordButton } from "@/features/user/change-password";
 
 export const ProfileCard = () => {
   const { data: user, isLoading, isError, error } = useUserProfile();

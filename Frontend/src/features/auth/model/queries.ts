@@ -15,6 +15,7 @@ export const useLogin = () => {
   const {
     mutate: login,
     isPending,
+    isError,
     error,
   } = useMutation<LoginResponse, Error, LoginMutationVariables>({
     mutationFn: ({ credentials }) => authApi.login(credentials.login, credentials.password),
@@ -45,7 +46,7 @@ export const useLogin = () => {
 
   const errorMessage = getErrorMessage(error);
 
-  return { login, isPending, error: errorMessage };
+  return { login, isPending, isError, error: errorMessage };
 };
 
 export const useRefresh = () => {

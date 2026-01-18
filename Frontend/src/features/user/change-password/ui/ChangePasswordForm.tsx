@@ -23,7 +23,7 @@ type ChangePasswordFormProps = {
 };
 
 export const ChangePasswordForm = ({ onSuccess, onCancel }: ChangePasswordFormProps) => {
-  const { mutate: changePassword, isPending, error, isSuccess } = useChangePassword();
+  const { changePassword, isPending, error, isError, isSuccess } = useChangePassword();
 
   const { control, handleSubmit } = useForm<ChangePasswordSchema>({
     resolver: zodResolver(changePasswordSchema),
@@ -37,7 +37,7 @@ export const ChangePasswordForm = ({ onSuccess, onCancel }: ChangePasswordFormPr
       { oldPassword, newPassword },
       {
         onSuccess: () => {
-          setTimeout(onSuccess, 1000);
+          setTimeout(onSuccess, 5000);
         },
       }
     );
@@ -53,10 +53,8 @@ export const ChangePasswordForm = ({ onSuccess, onCancel }: ChangePasswordFormPr
           </IconButton>
         </Box>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ pb: 0 }}>
         <Stack spacing={2} sx={{ pt: 1 }}>
-          {isSuccess && <Alert severity="success">Пароль успешно изменен!</Alert>}
-
           <Controller
             name="oldPassword"
             control={control}
@@ -67,7 +65,7 @@ export const ChangePasswordForm = ({ onSuccess, onCancel }: ChangePasswordFormPr
                 type="password"
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
-                disabled={isPending}
+                disabled={isPending || isSuccess}
               />
             )}
           />
@@ -81,7 +79,7 @@ export const ChangePasswordForm = ({ onSuccess, onCancel }: ChangePasswordFormPr
                 type="password"
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
-                disabled={isPending}
+                disabled={isPending || isSuccess}
               />
             )}
           />
@@ -95,22 +93,24 @@ export const ChangePasswordForm = ({ onSuccess, onCancel }: ChangePasswordFormPr
                 type="password"
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
-                disabled={isPending}
+                disabled={isPending || isSuccess}
               />
             )}
           />
-          {error && (
-            <Collapse in={!!error}>
-              <Alert severity="error">{error.message}</Alert>
-            </Collapse>
-          )}
         </Stack>
+        <Collapse in={isSuccess} sx={{ mt: isSuccess ? 2 : 0 }}>
+          <Alert severity="success">Пароль успешно изменен!</Alert>
+        </Collapse>
+
+        <Collapse in={isError} sx={{ mt: isError ? 2 : 0 }}>
+          <Alert severity="error">{error}</Alert>
+        </Collapse>
       </DialogContent>
-      <DialogActions sx={{ pb: 2, px: 3 }}>
+      <DialogActions sx={{ py: 2, px: 3 }}>
         <Button onClick={onCancel} disabled={isPending}>
           Отмена
         </Button>
-        <Button type="submit" variant="contained" loading={isPending}>
+        <Button type="submit" variant="contained" loading={isPending} disabled={isSuccess}>
           Сохранить
         </Button>
       </DialogActions>
