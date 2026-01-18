@@ -11,6 +11,7 @@ export const LogoutButton = () => {
       variant="outlined"
       color="error"
       onClick={() => logout()}
+      size="large"
       loading={isPending}
       loadingPosition="end"
       endIcon={<LogoutIcon />}

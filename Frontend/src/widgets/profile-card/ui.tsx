@@ -14,7 +14,8 @@ import {
 } from "@mui/material";
 
 import { LogoutButton } from "@/features/auth";
-import { useUserProfile } from "@/features/profile";
+import { ChangePasswordButton } from "@/features/profile/change-password";
+import { useUserProfile } from "@/features/profile/get-user-profile";
 
 export const ProfileCard = () => {
   const { data: user, isLoading, isError, error } = useUserProfile();
@@ -60,6 +61,7 @@ export const ProfileCard = () => {
               </List>
             </CardContent>
             <CardActions sx={{ justifyContent: "flex-end", p: 2 }}>
+              <ChangePasswordButton />
               <LogoutButton />
             </CardActions>
           </Card>
