@@ -1,4 +1,4 @@
-import axios, { AxiosError, type CreateAxiosDefaults } from "axios";
+import axios, { AxiosError, type CreateAxiosDefaults, type InternalAxiosRequestConfig } from "axios";
 
 import { API_URL } from "../config/env";
 import { sessionStore } from "../session/model/store";
@@ -28,18 +28,18 @@ privateApi.interceptors.response.use(
   (config) => {
     return config;
   },
-  async (error) => {
-    const originalRequest = error.config;
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & { _isRetry?: boolean };
 
-    if (error.response?.status === 401 && error.config && !error.config._isRetry) {
+    if (error.response?.status === 401 && !originalRequest._isRetry) {
       originalRequest._isRetry = true;
       try {
-        const response = await publicApi.get<{accessToken: string}>("/auth/refresh");
+        const response = await publicApi.get<{ accessToken: string }>("/auth/refresh");
         sessionStore.setToken(response.data.accessToken);
         return privateApi.request(originalRequest);
       } catch (error) {
-        const axiosError = error as AxiosError & { response?: { data: { message: string } } };
-        console.log("Interceptors refresh Error: ", axiosError.response?.data.message || axiosError.message);
+        const axiosError = error as AxiosError<{ message: string }>;
+        console.error("Interceptors refresh Error: ", axiosError.response?.data.message || axiosError.message);
         sessionStore.clearToken();
       }
     }

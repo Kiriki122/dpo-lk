@@ -9,7 +9,7 @@ export const authApi = {
     return LoginResponseSchema.parse(response.data);
   },
   refresh: async () => {
-    const response = await privateApi.get<RefreshResponse>(`${BASE_URL}/refresh`);
+    const response = await publicApi.get<RefreshResponse>(`${BASE_URL}/refresh`);
     return RefreshResponseSchema.parse(response.data);
   },
   logout: async () => {
