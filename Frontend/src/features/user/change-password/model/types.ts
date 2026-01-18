@@ -5,8 +5,15 @@ import { UserSchema } from "@/entities/user";
 export const changePasswordSchema = z
   .object({
     oldPassword: z.string().min(1, "Текущий пароль обязателен"),
-    newPassword: z.string().min(8, "Новый пароль должен быть не менее 8 символов"),
+    newPassword: z
+      .string()
+      .min(8, "Новый пароль должен быть не менее 8 символов")
+      .max(64, "Пароль не может быть длиннее 64 символов"),
     confirmPassword: z.string().min(1, "Подтверждение пароля обязательно"),
+  })
+  .refine((data) => data.oldPassword !== data.newPassword, {
+    message: "Новый пароль должен отличаться от старого",
+    path: ["newPassword"],
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Пароли не совпадают",

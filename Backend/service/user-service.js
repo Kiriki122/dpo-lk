@@ -90,7 +90,12 @@ class UserService {
 
     const isPassEquals = await bcrypt.compare(oldPassword, user.password);
     if (!isPassEquals) {
-      throw ApiError.BadRequest("Неверный старый пароль");
+      throw ApiError.BadRequest("Неверный текущий пароль");
+    }
+
+    const isNewPassEqualsOldPass = await bcrypt.compare(newPassword, user.password);
+    if (isNewPassEqualsOldPass) {
+      throw ApiError.BadRequest("Новый пароль должен отличаться от старого");
     }
 
     const hashPassword = await bcrypt.hash(newPassword, 3);
