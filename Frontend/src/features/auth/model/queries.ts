@@ -7,7 +7,7 @@ import { userStore } from "@/entities/user";
 import { pathKeys } from "@/shared/config/routes";
 import { sessionStore } from "@/shared/session";
 import { authApi } from "../api/api";
-import type { LoginMutationVariables, LoginResponse, RefreshResponse } from "./types";
+import type { LoginMutationVariables, AuthResponse } from "./types";
 
 export const useLogin = () => {
   const navigate = useNavigate();
@@ -17,10 +17,10 @@ export const useLogin = () => {
     isPending,
     isError,
     error,
-  } = useMutation<LoginResponse, Error, LoginMutationVariables>({
+  } = useMutation<AuthResponse, Error, LoginMutationVariables>({
     mutationFn: ({ credentials }) => authApi.login(credentials.login, credentials.password),
 
-    onSuccess: (data: LoginResponse, { fromPage }) => {
+    onSuccess: (data: AuthResponse, { fromPage }) => {
       sessionStore.setToken(data.accessToken);
       userStore.setUser(data.user);
       navigate(fromPage || pathKeys.root, { replace: true });
@@ -53,7 +53,7 @@ export const useRefresh = () => {
   const { mutate: refresh, isPending } = useMutation({
     mutationFn: authApi.refresh,
 
-    onSuccess: (data: RefreshResponse) => {
+    onSuccess: (data: AuthResponse) => {
       sessionStore.setToken(data.accessToken);
       userStore.setUser(data.user);
     },
