@@ -61,7 +61,7 @@ export const LoginForm = () => {
           />
         )}
       />
-      <Collapse in={isError}>
+      <Collapse in={isError} timeout={{ exit: 0, enter: 500 }}>
         <Alert severity="error" sx={{ mt: isError ? 2 : 0 }}>
           {serverError}
         </Alert>

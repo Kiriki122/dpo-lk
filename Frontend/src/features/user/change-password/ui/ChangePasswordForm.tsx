@@ -37,7 +37,7 @@ export const ChangePasswordForm = ({ onSuccess, onCancel }: ChangePasswordFormPr
       { oldPassword, newPassword },
       {
         onSuccess: () => {
-          setTimeout(onSuccess, 5000);
+          setTimeout(onSuccess, 3000);
         },
       }
     );
@@ -98,11 +98,11 @@ export const ChangePasswordForm = ({ onSuccess, onCancel }: ChangePasswordFormPr
             )}
           />
         </Stack>
-        <Collapse in={isSuccess} sx={{ mt: isSuccess ? 2 : 0 }}>
+        <Collapse in={isSuccess} timeout={{ exit: 0, enter: 300 }} sx={{ mt: isSuccess ? 2 : 0 }}>
           <Alert severity="success">Пароль успешно изменен!</Alert>
         </Collapse>
 
-        <Collapse in={isError} sx={{ mt: isError ? 2 : 0 }}>
+        <Collapse in={isError} timeout={{ exit: 0, enter: 500 }} sx={{ mt: isError ? 2 : 0 }}>
           <Alert severity="error">{error}</Alert>
         </Collapse>
       </DialogContent>
