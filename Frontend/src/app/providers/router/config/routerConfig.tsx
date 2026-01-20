@@ -3,7 +3,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { pathKeys } from "@/shared/config/routes";
 import { MainLayoutProvider } from "../../layout/MainLayoutProvider";
-import { ProtectedRoutes, PublicRoutes } from "../ui/AuthGuards";
+import { PersistLogin, ProtectedRoutes, PublicRoutes } from "../ui/AuthGuards";
 
 const EnrollPage = lazy(() => import("@/pages/enroll-page"));
 const LoginPage = lazy(() => import("@/pages/login"));
@@ -15,25 +15,30 @@ const NotFoundPage = lazy(() => import("@/pages/not-found-page"));
 
 export const routerConfig = createBrowserRouter([
   {
-    path: pathKeys.root,
-    element: <ProtectedRoutes />,
+    element: <PersistLogin />,
     children: [
       {
-        element: <MainLayoutProvider />,
+        path: pathKeys.root,
+        element: <ProtectedRoutes />,
         children: [
-          { path: pathKeys.root, element: <Navigate to={pathKeys.courses} replace /> },
-          { path: pathKeys.courses, element: <CoursesPage /> },
-          { path: pathKeys.enroll.root, element: <EnrollPage /> },
-          { path: pathKeys.documents, element: <MyDocumentsPage /> },
-          { path: pathKeys.schedule, element: <SchedulePage /> },
-          { path: pathKeys.profile, element: <ProfilePage /> },
+          {
+            element: <MainLayoutProvider />,
+            children: [
+              { index: true, element: <Navigate to={pathKeys.courses} replace /> },
+              { path: pathKeys.courses, element: <CoursesPage /> },
+              { path: pathKeys.enroll.root, element: <EnrollPage /> },
+              { path: pathKeys.documents, element: <MyDocumentsPage /> },
+              { path: pathKeys.schedule, element: <SchedulePage /> },
+              { path: pathKeys.profile, element: <ProfilePage /> },
+            ],
+          },
         ],
       },
+      {
+        element: <PublicRoutes />,
+        children: [{ path: pathKeys.login, element: <LoginPage /> }],
+      },
+      { path: "*", element: <NotFoundPage /> },
     ],
   },
-  {
-    element: <PublicRoutes />,
-    children: [{ path: pathKeys.login, element: <LoginPage /> }],
-  },
-  { path: "*", element: <NotFoundPage /> },
 ]);

@@ -1,5 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ZodError } from "zod";
 
@@ -49,21 +50,36 @@ export const useLogin = () => {
   return { login, isPending, isError, error: errorMessage };
 };
 
-export const useRefresh = () => {
-  const { mutate: refresh, isPending } = useMutation({
-    mutationFn: authApi.refresh,
+export const useInitSession = () => {
+  const hasToken = !!sessionStore.getAccessToken();
+  const [isAuthChecked, setIsAuthChecked] = useState<boolean>(hasToken);
 
-    onSuccess: (data: AuthResponse) => {
-      sessionStore.setToken(data.accessToken);
-      userStore.setUser(data.user);
-    },
-    onError: () => {
-      sessionStore.clearToken();
-      userStore.clearUser();
-    },
+  const { data, isSuccess, isError } = useQuery<AuthResponse>({
+    queryKey: ["session"],
+    queryFn: authApi.refresh,
+    enabled: !hasToken,
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
   });
 
-  return { refresh, isPending };
+  useEffect(() => {
+    if (isSuccess && data) {
+      sessionStore.setToken(data.accessToken);
+      userStore.setUser(data.user);
+      setIsAuthChecked(true);
+    }
+
+    if (isError) {
+      sessionStore.clearToken();
+      userStore.clearUser();
+      setIsAuthChecked(true);
+    }
+  }, [isSuccess, data, isError]);
+
+  return { isAuthChecked };
 };
 
 export const useLogout = () => {
