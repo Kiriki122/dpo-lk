@@ -9,8 +9,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Token.init(
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
       refreshToken: { type: DataTypes.TEXT, allowNull: false },
-      userId: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       sequelize,

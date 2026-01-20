@@ -4,11 +4,16 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.hasOne(models.Token, { foreignKey: "userId" });
+      User.hasOne(models.Token, { foreignKey: "userId", onDelete: "CASCADE" });
     }
   }
   User.init(
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
       firstName: { type: DataTypes.STRING, allowNull: false },
       lastName: { type: DataTypes.STRING, allowNull: false },
       middleName: { type: DataTypes.STRING, allowNull: true },
@@ -19,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "User",
-      tableName: "Users",
     }
   );
   return User;

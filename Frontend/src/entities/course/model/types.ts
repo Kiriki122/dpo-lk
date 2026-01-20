@@ -6,7 +6,7 @@ export const CourseModuleSchema = z.object({
 });
 
 export const CourseSchema = z.object({
-  id: z.number(),
+  id: z.uuidv4(),
   name: z.string(),
   hours: z.number(),
   description: z.string().nullable().optional(),

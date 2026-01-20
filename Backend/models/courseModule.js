@@ -4,15 +4,17 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class CourseModule extends Model {
     static associate(models) {
-      CourseModule.belongsTo(models.Course, {
-        foreignKey: "courseId",
-        as: "course",
-      });
+      CourseModule.belongsTo(models.Course, { foreignKey: "courseId" });
     }
   }
 
   CourseModule.init(
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
       title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -29,8 +31,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "CourseModule",
-      tableName: "CourseModules",
-      timestamps: false,
     }
   );
 

@@ -14,8 +14,13 @@ module.exports = (sequelize, DataTypes) => {
 
   Course.init(
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
       onec_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         allowNull: false,
         unique: true,
       },
@@ -41,7 +46,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Course",
-      tableName: "Courses",
     }
   );
 
