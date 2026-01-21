@@ -34,7 +34,7 @@ export const SessionDetailsModal = ({ isOpen, onClose, session }: SessionDetails
       </DialogTitle>
       <DialogContent dividers>
         <Typography variant="h6" color="primary" gutterBottom>
-          {session.course.title}
+          {session.course.name}
         </Typography>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}>
@@ -61,7 +61,7 @@ export const SessionDetailsModal = ({ isOpen, onClose, session }: SessionDetails
           </Box>
 
           <Box mt={1}>
-            <Chip label={session.course.format} size="small" variant="outlined" />
+            <Chip label={session.course.hours} size="small" variant="outlined" />
           </Box>
         </Box>
       </DialogContent>

@@ -34,7 +34,7 @@ export const SessionCard = ({ session, onClick }: SessionCardProps) => {
         {startTime}
       </Typography>
       <Typography variant="caption" sx={{ lineHeight: 1.1, display: "block" }}>
-        {session.course.title}
+        {session.course.name}
       </Typography>
     </Paper>
   );

@@ -1,0 +1,31 @@
+# Dependency directories
+node_modules
+
+# Development and build artifacts
+npm-debug.log
+*.log
+.env
+.env.*
+! .env.example
+dist
+build
+coverage
+
+# Version control
+.git
+.gitignore
+
+# Editor and OS-specific files
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+*.DS_Store
+Thumbs.db
+
+# Nodemon configuration
+nodemon.json
+
+# Prettier configuration (optional, if you don't need it in the image)
+.prettierrc
+.prettierignore

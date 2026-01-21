@@ -2,23 +2,19 @@ import { type Course } from "@/entities/course";
 import { type Session } from "../model/types";
 
 const reactCourse: Course = {
-  id: 1,
-  title: "React Advanced",
-  durationHours: 40,
-  format: "Онлайн",
+  id: "941e27d5-f1fd-4525-b5a1-b773739fc2dd",
+  name: "React Advanced",
+  hours: 40,
   description: "Углубленное изучение",
   modules: [],
-  status: "enrolled",
 };
 
 const designCourse: Course = {
-  id: 2,
-  title: "UI/UX Design",
-  durationHours: 20,
-  format: "Офлайн",
+  id: "9ac7f2c1-9c9f-4a89-b460-33c316541e82",
+  name: "UI/UX Design",
+  hours: 20,
   description: "Основы дизайна",
   modules: [],
-  status: "enrolled",
 };
 
 const today = new Date();

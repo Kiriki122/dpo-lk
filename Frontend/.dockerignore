@@ -1,0 +1,41 @@
+# Ignore dependencies - these are installed within the container
+node_modules
+
+# Ignore build output folder - this is generated within the container
+dist
+build
+
+# Ignore Vite specific files and caches
+.vite
+.vite-inspect/
+.eslintcache
+
+# Ignore TypeScript build info file
+*.tsbuildinfo
+
+# Ignore log files
+log*
+
+# Ignore environment variables - these should be securely passed to the container at runtime
+.env*
+! env.example
+
+# Ignore IDE and editor specific files
+.vscode
+.idea
+
+# Ignore version control folder
+.git
+.gitignore
+
+# Ignore operating system specific files
+.DS_Store
+Thumbs.db
+
+# Ignore Docker-related files to prevent including them in the image
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Ignore prettier config
+.prettierrc

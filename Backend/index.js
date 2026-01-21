@@ -28,6 +28,9 @@ app.use(errorMiddleware);
 const start = async () => {
   try {
     await db.sequelize.authenticate().then(() => console.log("Connection has been established successfully."));
+    if (process.env.NODE_ENV === "development") {
+      await db.sequelize.sync({ alter: true });
+    }
 
     initScheduledJobs();
     CourseService.syncWith1C();
