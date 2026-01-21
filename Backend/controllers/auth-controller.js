@@ -15,7 +15,11 @@ class AuthController {
     try {
       const { email, password } = req.body;
       const userData = await userService.login(email, password);
-      res.cookie("refreshToken", userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      });
       return res.json({ user: userData.user, accessToken: userData.accessToken });
     } catch (e) {
       next(e);
@@ -35,7 +39,11 @@ class AuthController {
     try {
       const { refreshToken } = req.cookies;
       const userData = await userService.refresh(refreshToken);
-      res.cookie("refreshToken", userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      });
       return res.json({ user: userData.user, accessToken: userData.accessToken });
     } catch (e) {
       next(e);
