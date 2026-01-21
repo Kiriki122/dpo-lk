@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { userStore } from "@/entities/user";
@@ -10,8 +11,13 @@ export const ProtectedRoutes = () => {
   const isAuth = sessionStore.useIsAuthenticated();
   const location = useLocation();
 
+  useEffect(() => {
+    if (!isAuth) {
+      userStore.clearUser();
+    }
+  }, [isAuth]);
+
   if (!isAuth) {
-    userStore.clearUser();
     return <Navigate to={pathKeys.login} state={{ from: location }} replace />;
   }
 
