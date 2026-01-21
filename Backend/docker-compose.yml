@@ -1,22 +1,64 @@
 version: "3.8"
+name: dev_backend
 
 services:
+  # --- Приложение Node.js ---
+  app:
+    container_name: dev-backend-app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env.development
+    environment:
+      NODE_ENV: development
+      PORT: ${PORT}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      CLIENT_URL: ${CLIENT_URL}
+      ONEC_URL: ${ONEC_URL}
+      ONEC_USER: ${ONEC_USER}
+      ONEC_PASSWORD: ${ONEC_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  # --- База данных PostgreSQL ---
   db:
     image: postgres:15-alpine
-    container_name: jwt-postgres-db
+    container_name: dev-postgres-db
     restart: always
+    env_file:
+      - .env.development
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: jwt-auth-db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
     volumes:
-      - pgdata:/var/lib/postgresql/data # Чтобы данные не пропадали при перезагрузке
+      - pgdata:/var/lib/postgresql/data
 
+  # --- PgAdmin интерфейс ---
   pgadmin:
     image: dpage/pgadmin4
-    container_name: jwt-pgadmin
+    container_name: dev-pgadmin
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
@@ -24,7 +66,8 @@ services:
     ports:
       - "5050:80"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - pgadmin-data:/var/lib/pgadmin
 
