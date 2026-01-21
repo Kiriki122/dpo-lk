@@ -17,8 +17,3 @@ export const loginFormSchema = z.object({
 });
 
 export type LoginFormData = z.infer<typeof loginFormSchema>;
-
-export type LoginMutationVariables = {
-  credentials: LoginFormData;
-  fromPage: string | undefined;
-};

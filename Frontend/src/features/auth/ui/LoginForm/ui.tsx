@@ -1,25 +1,25 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TextField, Button, Alert, Box, Collapse } from "@mui/material";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
-import { useLocation } from "react-router-dom";
 
-import { pathKeys } from "@/shared/config/routes";
 import { useLogin } from "../../model/queries";
 import { loginFormSchema, type LoginFormData } from "../../model/types";
 
 export const LoginForm = () => {
-  const { login, isPending, isError, error: serverError } = useLogin();
-  const location = useLocation();
-  const fromPage = location.state?.from?.pathname || pathKeys.root;
+  const { login, isPending, isError, error: loginError } = useLogin();
 
-  const { control, handleSubmit } = useForm<LoginFormData>({
+  const { control, handleSubmit, setValue } = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     mode: "onTouched",
     defaultValues: { login: "", password: "" },
   });
 
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
-    login({ credentials: data, fromPage });
+    login(data, {
+      onError: () => {
+        setValue("password", "");
+      },
+    });
   };
 
   return (
@@ -63,7 +63,7 @@ export const LoginForm = () => {
       />
       <Collapse in={isError} timeout={{ exit: 0, enter: 500 }}>
         <Alert severity="error" sx={{ mt: isError ? 2 : 0 }}>
-          {serverError}
+          {loginError}
         </Alert>
       </Collapse>
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} loading={isPending}>

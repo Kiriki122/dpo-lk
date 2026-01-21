@@ -1,30 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ZodError } from "zod";
 
 import { userStore } from "@/entities/user";
-import { pathKeys } from "@/shared/config/routes";
 import { sessionStore } from "@/shared/session";
 import { authApi } from "../api/api";
-import type { LoginMutationVariables, AuthResponse } from "./types";
+import type { AuthResponse, LoginFormData } from "./types";
 
 export const useLogin = () => {
-  const navigate = useNavigate();
-
   const {
     mutate: login,
     isPending,
     isError,
     error,
-  } = useMutation<AuthResponse, Error, LoginMutationVariables>({
-    mutationFn: ({ credentials }) => authApi.login(credentials.login, credentials.password),
+  } = useMutation<AuthResponse, Error, LoginFormData>({
+    mutationFn: ({ login, password }) => authApi.login(login, password),
 
-    onSuccess: (data: AuthResponse, { fromPage }) => {
+    onSuccess: (data: AuthResponse) => {
       sessionStore.setToken(data.accessToken);
       userStore.setUser(data.user);
-      navigate(fromPage || pathKeys.root, { replace: true });
     },
   });
   const getErrorMessage = (err: Error | null): string | null => {
@@ -83,7 +78,6 @@ export const useInitSession = () => {
 };
 
 export const useLogout = () => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { mutate: logout, isPending } = useMutation({
@@ -92,13 +86,11 @@ export const useLogout = () => {
       sessionStore.clearToken();
       userStore.clearUser();
       queryClient.clear();
-      navigate(pathKeys.login, { replace: true });
     },
     onError: () => {
       sessionStore.clearToken();
       userStore.clearUser();
       queryClient.clear();
-      navigate(pathKeys.login, { replace: true });
     },
   });
 
