@@ -1,5 +1,5 @@
 import { Button, Container, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const NotFoundPage = () => {
   const theme = useTheme();

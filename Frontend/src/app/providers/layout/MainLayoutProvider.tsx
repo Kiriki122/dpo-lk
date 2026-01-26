@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 
 import { userStore } from "@/entities/user";
 import { NameWithAvatar } from "@/shared/ui/Header/NameWithAvatar";

@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router";
 
 import { pathKeys } from "@/shared/config/routes";
 import { MainLayoutProvider } from "../../layout/MainLayoutProvider";

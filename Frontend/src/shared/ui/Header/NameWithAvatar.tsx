@@ -1,5 +1,5 @@
 import { Avatar, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { pathKeys } from "@/shared/config/routes";
 

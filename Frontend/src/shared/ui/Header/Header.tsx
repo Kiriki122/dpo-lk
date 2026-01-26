@@ -1,6 +1,6 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Toolbar, IconButton, Container } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { pathKeys } from "@/shared/config/routes";
 

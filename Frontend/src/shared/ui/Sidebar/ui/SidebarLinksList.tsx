@@ -1,5 +1,5 @@
 import { alpha, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router";
 
 import type { SidebarLink } from "../model/types";
 
