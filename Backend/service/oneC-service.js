@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { OneCResponseSchema } = require("./validation/course.schema");
-const { th } = require("zod/v4/locales");
+const ApiError = require("../exceptions/api-error");
 
 class OneCService {
   constructor() {
@@ -38,6 +38,19 @@ class OneCService {
 
       throw error;
     }
+  }
+
+  async createApplication(course_uid, student_fio, phone, email) {
+    if (!course_uid || !student_fio || !phone || !email) {
+      throw ApiError.BadRequest("Поля course_uid, student_fio, phone, email обязательные для заполнения");
+    }
+
+    const response = await axios.post(
+      `${this.baseUrl}/applications`,
+      { course_uid, student_fio, phone, email },
+      { auth: this.auth }
+    );
+    return response.data;
   }
 }
 
