@@ -1,15 +1,21 @@
-trailingComma: "es5"
-printWidth: 120
-tabWidth: 2
-useTabs: false
-semi: true
-singleQuote: false
-jsxSingleQuote: false
-bracketSpacing: true
-objectWrap: "preserve"
-bracketSameLine: false
-arrowParens: "always"
-overrides:
-  - files: ["index.html", "vite.config.ts"]
-    options:
-      tabWidth: 4
+{
+  "trailingComma": "es5",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": false,
+  "jsxSingleQuote": false,
+  "bracketSpacing": true,
+  "objectWrap": "preserve",
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "overrides": [
+    {
+      "files": ["index.html", "vite.config.ts"],
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
+}
