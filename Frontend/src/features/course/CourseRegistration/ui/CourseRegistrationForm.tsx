@@ -81,12 +81,13 @@ export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrat
       sx={{
         p: 4,
         maxWidth: 750,
-        marginLeft: "auto",
-        marginRight: "auto",
         display: "flex",
-        justifyContent: "center",
+        flexDirection: "column",
         mt: 4,
+        ml: "auto",
+        mr: "auto",
       }}
+      elevation={8}
     >
       <Box
         component="form"
@@ -95,9 +96,7 @@ export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrat
           display: "flex",
           flexDirection: "column",
           gap: 3,
-          maxWidth: 500,
-          flexGrow: 1,
-          flexShrink: 1,
+          width: "100%",
         }}
       >
         {/* Поле выбора курса */}
@@ -196,15 +195,22 @@ export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrat
         <Button type="submit" variant="contained" color="primary" size="large" loading={isPending}>
           {isSubmitting ? <CircularProgress size={24} color="inherit" /> : "Записаться на курс"}
         </Button>
-
-        <Collapse in={isSuccess} timeout={{ exit: 0, enter: 300 }} sx={{ mt: isSuccess ? 2 : 0 }}>
-          <Alert severity="success">Заявка на курс успешно отправлена!</Alert>
-        </Collapse>
-
-        <Collapse in={isError} timeout={{ exit: 0, enter: 500 }} sx={{ mt: isError ? 2 : 0 }}>
-          <Alert severity="error">{submitError}</Alert>
-        </Collapse>
       </Box>
+      <Collapse
+        in={isSuccess}
+        timeout={{ exit: 0, enter: 300 }}
+        sx={{ mt: isSuccess ? 2 : 0, width: "100%", alignSelf: "center" }}
+      >
+        <Alert severity="success">Заявка на курс успешно отправлена!</Alert>
+      </Collapse>
+
+      <Collapse
+        in={isError}
+        timeout={{ exit: 0, enter: 500 }}
+        sx={{ mt: isError ? 2 : 0, width: "100%", alignSelf: "center" }}
+      >
+        <Alert severity="error">{submitError}</Alert>
+      </Collapse>
     </Paper>
   );
 };
