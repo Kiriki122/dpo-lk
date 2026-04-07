@@ -9,9 +9,12 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Button,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router";
 
 import type { Course } from "@/entities/course";
+import { pathKeys } from "@/shared/config/routes";
 
 interface CourseDetailsProps {
   course: Course;
@@ -71,6 +74,18 @@ export const CourseDetails = ({ course }: CourseDetailsProps) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Box sx={{ mt: 4, display: "flex" }}>
+        <Button
+          component={RouterLink}
+          to={pathKeys.enroll.byId(course.id)}
+          variant="contained"
+          color="primary"
+          size="large"
+          fullWidth
+        >
+          Записаться на курс
+        </Button>
+      </Box>
     </Box>
   );
 };

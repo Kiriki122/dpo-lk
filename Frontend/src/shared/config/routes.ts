@@ -6,7 +6,8 @@ export const pathKeys = {
   courses: "/courses",
   enroll: {
     root: "/enroll",
-    byId: (id: number) => `/enroll/${id}`,
+    byIdPattern: "/enroll/:id",
+    byId: (id: string) => `/enroll/${id}`,
   },
   documents: "/documents",
   schedule: "/schedule",

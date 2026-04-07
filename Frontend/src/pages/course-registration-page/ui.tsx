@@ -1,11 +1,11 @@
 import { Typography } from "@mui/material";
-import { useSearchParams } from "react-router";
+import { useParams } from "react-router";
 
 import { CourseRegistrationForm } from "@/features/course/CourseRegistration/ui/CourseRegistrationForm";
 
 export const CourseRegistrationPage = () => {
-  const [searchParams] = useSearchParams();
-  const initialCourseId = searchParams.get("course_id") || "";
+  const { id } = useParams<{ id: string }>();
+  const initialCourseId = id || "";
   return (
     <>
       <Typography variant="h3" component="h1" gutterBottom>

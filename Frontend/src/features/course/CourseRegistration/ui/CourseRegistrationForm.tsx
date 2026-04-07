@@ -13,6 +13,7 @@ import {
   Collapse,
   Paper,
 } from "@mui/material";
+import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 
 import { useCoursesQuery } from "@/entities/course";
@@ -36,6 +37,7 @@ export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrat
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setValue,
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(RegistrationFormSchema),
     defaultValues: {
@@ -45,6 +47,16 @@ export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrat
       email: userEmail,
     },
   });
+
+  useEffect(() => {
+    if (courses && initialCourseId) {
+      const isValidCourseId = courses.some((course) => course.id === initialCourseId);
+
+      if (!isValidCourseId) {
+        setValue("course_uid", "");
+      }
+    }
+  }, [courses, initialCourseId, setValue]);
 
   const {
     submitApplication,
@@ -85,6 +97,7 @@ export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrat
           gap: 3,
           maxWidth: 500,
           flexGrow: 1,
+          flexShrink: 1,
         }}
       >
         {/* Поле выбора курса */}
@@ -92,12 +105,35 @@ export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrat
           name="course_uid"
           control={control}
           render={({ field }) => (
-            <FormControl fullWidth error={!!errors.course_uid}>
+            <FormControl fullWidth error={!!errors.course_uid} sx={{ minWidth: 0 }}>
               <InputLabel id="course-select-label">Выберите курс</InputLabel>
-              <Select {...field} labelId="course-select-label" label="Выберите курс">
+              <Select
+                {...field}
+                labelId="course-select-label"
+                label="Выберите курс"
+                MenuProps={{
+                  PaperProps: {
+                    sx: {
+                      width: 0,
+                    },
+                  },
+                }}
+                sx={{
+                  overflow: "hidden",
+                  whiteSpace: "normal",
+                  wordBreak: "break-word",
+                }}
+              >
                 {courses?.map((course) => (
-                  <MenuItem key={course.id} value={course.id}>
-                    {/* Пользователь видит название, а в форму улетает id */}
+                  <MenuItem
+                    key={course.id}
+                    value={course.id}
+                    title={course.name}
+                    sx={{
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                    }}
+                  >
                     {course.name}
                   </MenuItem>
                 ))}
@@ -114,7 +150,7 @@ export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrat
           render={({ field }) => (
             <TextField
               {...field}
-              label="ФИО студента"
+              label="ФИО слушателя"
               variant="outlined"
               fullWidth
               error={!!errors.student_fio}

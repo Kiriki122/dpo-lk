@@ -22,6 +22,7 @@ const protectedRoutes: RouteObject = {
         { index: true, element: <Navigate to={pathKeys.courses} replace /> },
         { path: pathKeys.courses, element: <CoursesPage /> },
         { path: pathKeys.enroll.root, element: <CourseRegistrationPage /> },
+        { path: pathKeys.enroll.byIdPattern, element: <CourseRegistrationPage /> },
         { path: pathKeys.documents, element: <MyDocumentsPage /> },
         { path: pathKeys.schedule, element: <SchedulePage /> },
         { path: pathKeys.profile, element: <ProfilePage /> },
