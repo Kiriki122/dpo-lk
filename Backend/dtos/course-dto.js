@@ -8,7 +8,7 @@ module.exports = class CourseDto {
   modules;
 
   constructor(model) {
-    this.id = model.id;
+    this.id = model.onec_id;
     this.name = model.name;
     this.hours = model.hours;
     this.description = model.description;
