@@ -1,7 +1,7 @@
 const { z } = require("zod");
 const validator = require("validator");
 
-const registrationSchema = z.object({
+const RegistrationSchema = z.object({
   body: z.object({
     firstName: z
       .string()
@@ -23,8 +23,12 @@ const registrationSchema = z.object({
     password: z
       .string()
       .min(8, "Пароль должен содержать минимум 8 символов")
-      .max(32, "Пароль должен содержать максимум 32 символа"),
-  }),
+      .max(32, "Пароль должен содержать максимум 32 символа")
+      .regex(
+        /^[A-Za-z0-9!@#$%^&*()_+\-=[\]{}|:,.?/]+$/,
+        "Разрешены латинские буквы, цифры и символы: ! @ # $ % ^ & * ( ) _ + - = [ ] { } | : , . ? /"
+      ),
+  }, {error:"Ожидается json объект в теле запроса"}),
 });
 
-module.exports = { registrationSchema };
+module.exports = { RegistrationSchema };

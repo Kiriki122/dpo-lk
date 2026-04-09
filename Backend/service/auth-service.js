@@ -42,6 +42,9 @@ class AuthService {
   }
 
   async logout(refreshToken) {
+    if (!refreshToken) {
+      throw ApiError.UnauthorizedError();
+    }
     const token = await tokenService.removeToken(refreshToken);
     return token;
   }

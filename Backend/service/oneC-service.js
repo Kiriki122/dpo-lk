@@ -44,13 +44,20 @@ class OneCService {
     if (!course_uid || !student_fio || !phone || !email) {
       throw ApiError.BadRequest("Поля course_uid, student_fio, phone, email обязательные для заполнения");
     }
-
-    const response = await axios.post(
-      `${this.baseUrl}/applications`,
-      { course_uid, student_fio, phone, email },
-      { auth: this.auth }
-    );
-    return response.data;
+    try {
+      const response = await axios.post(
+        `${this.baseUrl}/applications`,
+        { course_uid, student_fio, phone, email },
+        { auth: this.auth }
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status || "No Status";
+        const statusText = error.response?.statusText || "Сервер не доступен";
+        throw ApiError.BadRequest(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
+      }
+    }
   }
 }
 
