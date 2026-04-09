@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import { useParams } from "react-router";
 
-import { CourseRegistrationForm } from "@/features/course/CourseRegistration/ui/CourseRegistrationForm";
+import { CourseRegistrationForm } from "@/features/course/CourseRegistration";
 
 export const CourseRegistrationPage = () => {
   const { id } = useParams<{ id: string }>();
