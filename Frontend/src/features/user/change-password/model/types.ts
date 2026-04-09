@@ -4,12 +4,16 @@ import { UserSchema } from "@/entities/user";
 
 export const changePasswordSchema = z
   .object({
-    oldPassword: z.string().min(1, "Текущий пароль обязателен"),
+    oldPassword: z.string().nonempty("Текущий пароль обязателен"),
     newPassword: z
       .string()
       .min(8, "Новый пароль должен быть не менее 8 символов")
-      .max(64, "Пароль не может быть длиннее 64 символов"),
-    confirmPassword: z.string().min(1, "Подтверждение пароля обязательно"),
+      .max(32, "Пароль не может быть длиннее 32 символов")
+      .regex(
+        /^[A-Za-z0-9!@#$%^&*()_+\-=[\]{}|:,.?/]+$/,
+        "Разрешены латинские буквы, цифры и символы: ! @ # $ % ^ & * ( ) _ + - = [ ] { } | : , . ? /"
+      ),
+    confirmPassword: z.string().nonempty("Подтверждение пароля обязательно"),
   })
   .refine((data) => data.oldPassword !== data.newPassword, {
     message: "Новый пароль должен отличаться от старого",
