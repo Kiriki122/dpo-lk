@@ -7,5 +7,6 @@ const { validate } = require("../middlewares/validate");
 const router = new Router();
 
 router.post("/", authMiddleware, validate(ApplicationSchema), applicationController.createApplication);
+router.get("/me", authMiddleware, applicationController.getApplications);
 
 module.exports = router;

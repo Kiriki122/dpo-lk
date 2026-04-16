@@ -1,6 +1,7 @@
 const axios = require("axios");
 const { OneCResponseSchema } = require("./validation/course.schema");
 const ApiError = require("../exceptions/api-error");
+const { User } = require("../models");
 
 class OneCService {
   constructor() {
@@ -50,6 +51,26 @@ class OneCService {
         { course_uid, student_fio, phone, email },
         { auth: this.auth }
       );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status || "No Status";
+        const statusText = error.response?.statusText || "Сервер не доступен";
+        throw ApiError.BadRequest(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
+      }
+    }
+  }
+
+  async getUserApplications(user) {
+    if (!user.id) {
+      throw ApiError.BadRequest();
+    }
+    const userData = await User.findByPk(user.id);
+    if (!userData) {
+      throw ApiError.NotFound("Пользователь не найден");
+    }
+    try {
+      const response = await axios.post(`${this.baseUrl}/applications/me`, { phone: userData.phone }, { auth: this.auth });
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
