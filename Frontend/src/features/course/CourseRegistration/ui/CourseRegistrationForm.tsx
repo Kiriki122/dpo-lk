@@ -28,9 +28,9 @@ interface CourseRegistrationFormProps {
 export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrationFormProps) => {
   const { data: courses, isLoading: isCoursesLoading } = useCoursesQuery();
   const user = userStore.useUser();
-  const userFullName = user ? `${user?.lastName} ${user?.firstName} ${user?.middleName}` : "";
-  const userPhone = user?.phone || "";
-  const userEmail = user?.email || "";
+  const userFullName = `${user.lastName} ${user.firstName} ${user.middleName}`;
+  const userPhone = user.phone;
+  const userEmail = user.email;
 
   const {
     control,

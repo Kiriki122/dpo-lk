@@ -7,7 +7,7 @@ import { MainLayout } from "@/shared/ui/MainLayout/MainLayout";
 export const MainLayoutProvider = () => {
   const user = userStore.useUser();
   return (
-    <MainLayout headerTopRightSlot={<NameWithAvatar name={user?.firstName} />}>
+    <MainLayout headerTopRightSlot={<NameWithAvatar name={user.firstName || "Пользователь"} />}>
       <Outlet />
     </MainLayout>
   );

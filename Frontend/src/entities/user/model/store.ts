@@ -10,12 +10,19 @@ type UserStore = {
 
 const useUserStore = create<UserStore>((set) => ({
   user: null,
-  isLoading: true,
   setUser: (user: User) => set({ user }),
   clearUser: () => set({ user: null }),
 }));
 
-const useUser = () => useUserStore((state) => state.user);
+const useUser = () => {
+  const user = useUserStore((state) => state.user);
+
+  if (!user) {
+    throw new Error("useUser must be used within an authenticated boundary");
+  }
+
+  return user;
+};
 const setUser = (user: User) => useUserStore.getState().setUser(user);
 const clearUser = () => useUserStore.getState().clearUser();
 
