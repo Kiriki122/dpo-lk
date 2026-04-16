@@ -9,8 +9,8 @@ export const pathKeys = {
     byIdPattern: "/enroll/:id",
     byId: (id: string) => `/enroll/${id}`,
   },
-  documents: "/documents",
-  schedule: "/schedule",
+  // documents: "/documents",
+  // schedule: "/schedule",
   profile: "/profile",
 } as const;
 
