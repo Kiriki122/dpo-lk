@@ -1,5 +1,6 @@
 // import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 // import DescriptionIcon from "@mui/icons-material/Description";
+import CreateIcon from "@mui/icons-material/Create";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import SchoolIcon from "@mui/icons-material/School";
 
@@ -9,7 +10,8 @@ import type { SidebarLink } from "../model/types";
 
 export const sidebarLinks: SidebarLink[] = [
   { text: "Курсы", path: pathKeys.courses, icon: SchoolIcon },
-  { text: "Запись на курс", path: pathKeys.enroll.root, icon: PlaylistAddCheckIcon },
+  { text: "Запись на курс", path: pathKeys.enroll.root, icon: CreateIcon },
+  { text: "Заявки", path: pathKeys.applications, icon: PlaylistAddCheckIcon },
   // { text: "Документы", path: pathKeys.documents, icon: DescriptionIcon },
   // { text: "Расписание", path: pathKeys.schedule, icon: CalendarMonthIcon },
 ];
