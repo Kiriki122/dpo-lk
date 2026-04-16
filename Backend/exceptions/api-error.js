@@ -27,4 +27,8 @@ module.exports = class ApiError extends Error {
   static Conflict(message, errors = []) {
     return new ApiError(409, message, errors);
   }
+
+  static BadGateway(message = "Внешний сервис временно недоступен", errors = []) {
+    return new ApiError(502, message, errors);
+}
 };

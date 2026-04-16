@@ -69,7 +69,11 @@ export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrat
   });
 
   const onSubmit = async (data: RegistrationFormData) => {
-    await submitApplication(data);
+    try {
+      await submitApplication(data);
+    } catch (error) {
+      const _err = error;
+    }
   };
 
   if (isCoursesLoading) {

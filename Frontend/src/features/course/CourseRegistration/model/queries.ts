@@ -31,7 +31,7 @@ export const useSubmitApplication = (onSuccessCallback?: () => void) => {
       if (err.response?.status === 404) {
         return "Выбранный курс не найден";
       }
-      if (err.response?.status === 500) {
+      if (err.response?.status && err.response.status >= 500) {
         return "Ошибка сервера. Попробуйте зайти позже.";
       }
     }

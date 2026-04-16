@@ -4,7 +4,7 @@ import { useApplicationsQuery } from "@/entities/application/model/queries";
 import { ApplicationList } from "@/widgets/application-list";
 
 export const ApplicationsPage = () => {
-  const { data: applications, error, isLoading } = useApplicationsQuery();
+  const { applications, error, isLoading } = useApplicationsQuery();
   const handleApplicationClick = () => {};
   return (
     <>
@@ -18,7 +18,7 @@ export const ApplicationsPage = () => {
         </Box>
       )}
 
-      {error && <Alert severity="error">Ошибка во время загрузки заявок: {error.message}</Alert>}
+      {error && <Alert severity="error">Ошибка во время загрузки заявок: {error}</Alert>}
 
       {!isLoading && !error && (
         <ApplicationList applications={applications} onApplicationClick={handleApplicationClick} />

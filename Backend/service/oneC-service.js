@@ -56,7 +56,7 @@ class OneCService {
       if (axios.isAxiosError(error)) {
         const status = error.response?.status || "No Status";
         const statusText = error.response?.statusText || "Сервер не доступен";
-        throw ApiError.BadRequest(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
+        throw ApiError.BadGateway(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
       }
     }
   }
@@ -70,13 +70,17 @@ class OneCService {
       throw ApiError.NotFound("Пользователь не найден");
     }
     try {
-      const response = await axios.post(`${this.baseUrl}/applications/me`, { phone: userData.phone }, { auth: this.auth });
+      const response = await axios.post(
+        `${this.baseUrl}/applications/me`,
+        { phone: userData.phone },
+        { auth: this.auth }
+      );
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const status = error.response?.status || "No Status";
         const statusText = error.response?.statusText || "Сервер не доступен";
-        throw ApiError.BadRequest(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
+        throw ApiError.BadGateway(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
       }
     }
   }
