@@ -8,7 +8,7 @@ export const ApplicationsPage = () => {
   const handleApplicationClick = () => {};
   return (
     <>
-      <Typography variant="h3" component="h1" gutterBottom>
+      <Typography variant="h3" component="h1" gutterBottom sx={{ mb: 6 }}>
         Мои заявки на курсы
       </Typography>
       {isLoading && (

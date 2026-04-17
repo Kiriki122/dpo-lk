@@ -8,7 +8,7 @@ export const CourseRegistrationPage = () => {
   const initialCourseId = id || "";
   return (
     <>
-      <Typography variant="h3" component="h1" gutterBottom>
+      <Typography variant="h3" component="h1" gutterBottom sx={{ mb: 6 }}>
         Записаться на курс
       </Typography>
       <CourseRegistrationForm initialCourseId={initialCourseId} />

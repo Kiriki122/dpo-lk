@@ -33,7 +33,7 @@ export const CoursesPage = () => {
 
   return (
     <>
-      <Typography variant="h3" component="h1" gutterBottom>
+      <Typography variant="h3" component="h1" gutterBottom sx={{ mb: 6 }}>
         Курсы
       </Typography>
 
