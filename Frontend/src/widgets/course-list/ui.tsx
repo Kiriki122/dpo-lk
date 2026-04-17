@@ -11,7 +11,7 @@ export const CourseList = ({ courses, onCourseClick }: CourseListProps) => {
   if (!courses) {
     return (
       <Typography color="error" variant="h6" mt={4}>
-        Не удалось получить список курсов.
+        Не удалось получить список курсов
       </Typography>
     );
   }
@@ -19,7 +19,7 @@ export const CourseList = ({ courses, onCourseClick }: CourseListProps) => {
   if (courses.length === 0) {
     return (
       <Typography variant="h6" color="text.secondary" sx={{ mt: 4 }}>
-        Курсы по заданным критериям не найдены.
+        Курсы с таким названием не найдены
       </Typography>
     );
   }

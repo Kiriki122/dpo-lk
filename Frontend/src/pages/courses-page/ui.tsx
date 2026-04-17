@@ -12,11 +12,14 @@ import {
 import { useState, useCallback } from "react";
 
 import { type Course, useCoursesQuery } from "@/entities/course";
+import { CourseFilters, useCourseFilters } from "@/features/course/CourseFilters";
 import { CourseDetails } from "@/widgets/course-details";
 import { CourseList } from "@/widgets/course-list";
 
 export const CoursesPage = () => {
   const { data: courses, isLoading, error } = useCoursesQuery();
+
+  const { filteredCourses, setSearchQuery, sortOption, setSortOption } = useCourseFilters(courses);
 
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +49,12 @@ export const CoursesPage = () => {
 
       {error && <Alert severity="error">Ошибка во время загрузки курсов: {error.message}</Alert>}
 
-      {!isLoading && !error && <CourseList courses={courses} onCourseClick={handleCourseClick} />}
+      {!isLoading && !error && (
+        <>
+          <CourseFilters onSearchChange={setSearchQuery} onSortChange={setSortOption} currentSort={sortOption} />
+          <CourseList courses={filteredCourses} onCourseClick={handleCourseClick} />
+        </>
+      )}
 
       {/* МОДАЛЬНОЕ ОКНО для деталей курса */}
       <Dialog open={isModalOpen} onClose={handleCloseModal} maxWidth="md" fullWidth scroll="paper">
