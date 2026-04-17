@@ -15,10 +15,10 @@ module.exports = {
     dialect: "postgres",
   },
   production: {
-    username: process.env.DB_USER ||"username",
+    username: process.env.DB_USER || "username",
     password: process.env.DB_PASSWORD || "password",
     database: process.env.DB_NAME || "db123_prod",
-    host: process.env.DB_HOST ||"db",
+    host: process.env.DB_HOST || "db",
     port: 5432,
     dialect: "postgres",
   },
