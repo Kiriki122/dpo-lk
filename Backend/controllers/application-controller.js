@@ -1,5 +1,8 @@
 const ApplicationDto = require("../dtos/application-dto");
+const ApiError = require("../exceptions/api-error");
 const oneCService = require("../service/oneC-service");
+const { UploadFilesSchema } = require("../service/validation/upload-files.schema");
+const path = require("node:path");
 
 class ApplicationController {
   async createApplication(req, res, next) {
@@ -20,6 +23,47 @@ class ApplicationController {
       res.json(response);
     } catch (e) {
       next(e);
+    }
+  }
+
+  async uploadFiles(req, res, next) {
+    try {
+      const { DocNumber } = req.body;
+
+      if (!req.files || req.files.length === 0) {
+        throw ApiError.BadRequest("Файлы не были загружены");
+      }
+
+      const filesData = req.files.map((file) => {
+        const ext = path.extname(file.originalname).replace(".", "");
+        const name = path.basename(file.originalname, path.extname(file.originalname));
+
+        return {
+          FileName: name,
+          Extension: ext,
+          Base64Data: file.buffer.toString("base64"),
+        };
+      });
+
+      const payload = {
+        DocNumber,
+        Files: filesData,
+      };
+
+      const validationResult = UploadFilesSchema.safeParse(payload);
+
+      if (!validationResult.success) {
+        const errorMessage = validationResult.error.issues.map((err) => err.message).join(", ");
+        throw ApiError.BadRequest(`Ошибка валидации`, [errorMessage]);
+      }
+
+      const { DocNumber: validDocNumber, Files: validFiles } = validationResult.data;
+
+      const result = await oneCService.uploadFilesToApplication(validDocNumber, validFiles);
+
+      return res.status(200).json(result);
+    } catch (error) {
+      next(error);
     }
   }
 }

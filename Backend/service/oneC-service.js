@@ -58,6 +58,7 @@ class OneCService {
         const statusText = error.response?.statusText || "Сервер не доступен";
         throw ApiError.BadGateway(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
       }
+      throw error;
     }
   }
 
@@ -82,6 +83,40 @@ class OneCService {
         const statusText = error.response?.statusText || "Сервер не доступен";
         throw ApiError.BadGateway(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
       }
+      throw error;
+    }
+  }
+
+  async uploadFilesToApplication(DocNumber, Files) {
+    if (!DocNumber) {
+      throw ApiError.BadRequest("Отсутствует номер документа (DocNumber)");
+    }
+    if (!Files || Files.length === 0) {
+      throw ApiError.BadRequest("Отсутствуют файлы для загрузки (Files)");
+    }
+
+    try {
+      const endpoint = `${this.baseUrl}/applications/files`;
+
+      const payload = {
+        DocNumber,
+        Files,
+      };
+
+      const response = await axios.post(endpoint, payload, { auth: this.auth });
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status || "No Status";
+        const statusText = error.response?.statusText || "Сервер не доступен";
+
+        throw ApiError.BadGateway(
+          `Ошибка HTTP запроса к 1С при загрузке файлов: ${status} ${statusText}. ${error.message}.`
+        );
+      }
+
+      throw error;
     }
   }
 }
