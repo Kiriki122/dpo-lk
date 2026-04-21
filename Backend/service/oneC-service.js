@@ -73,7 +73,7 @@ class OneCService {
     try {
       const response = await axios.post(
         `${this.baseUrl}/applications/me`,
-        { phone: userData.phone },
+        { email: userData.email },
         { auth: this.auth }
       );
       return response.data;
