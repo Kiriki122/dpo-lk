@@ -29,51 +29,65 @@ export const CourseDetails = ({ course }: CourseDetailsProps) => {
 
       <Divider sx={{ my: 2 }} />
 
-      <Typography variant="h6" gutterBottom sx={{ textWrapStyle: "pretty" }}>
-        Описание
-      </Typography>
-      <Typography variant="body1">{course.description}</Typography>
+      {course.description && (
+        <>
+          <Typography variant="h6" gutterBottom sx={{ textWrapStyle: "pretty" }}>
+            Описание
+          </Typography>
+          <Typography variant="body1">{course.description}</Typography>
+          <Divider sx={{ my: 2 }} />
+        </>
+      )}
 
-      <Divider sx={{ my: 2 }} />
+      {course.mode && (
+        <>
+          <Typography variant="h6" gutterBottom sx={{ textWrapStyle: "pretty" }}>
+            Формат
+          </Typography>
+          <Typography variant="body1">{course.mode}</Typography>
 
-      <Typography variant="h6" gutterBottom sx={{ textWrapStyle: "pretty" }}>
-        Формат
-      </Typography>
-      <Typography variant="body1"> {course.mode}</Typography>
+          <Divider sx={{ my: 2 }} />
+        </>
+      )}
+      {!!course.hours && (
+        <>
+          <Typography variant="h6" gutterBottom>
+            Время на полное прохождение курса
+          </Typography>
+          <Typography variant="body1">{course.hours} ак.ч.</Typography>
 
-      <Divider sx={{ my: 2 }} />
+          <Divider sx={{ my: 2 }} />
+        </>
+      )}
 
-      <Typography variant="h6" gutterBottom>
-        Время на полное прохождение курса
-      </Typography>
-      <Typography variant="body1">{course.hours} ак.ч.</Typography>
+      {course.modules.length > 0 && (
+        <>
+          <Typography variant="h6" gutterBottom>
+            Структура программы
+          </Typography>
 
-      <Divider sx={{ my: 2 }} />
-
-      <Typography variant="h6" gutterBottom>
-        Структура программы
-      </Typography>
-
-      <TableContainer component={Paper}>
-        <Table size="small">
-          <TableHead>
-            <TableRow selected>
-              <TableCell sx={{ fontWeight: 900 }}>Название модуля</TableCell>
-              <TableCell sx={{ fontWeight: 900 }} align="center">
-                Всего часов
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {course.modules.map((module, index) => (
-              <TableRow key={index}>
-                <TableCell>{module.title}</TableCell>
-                <TableCell align="center">{module.hours} ак.ч.</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          <TableContainer component={Paper}>
+            <Table size="small">
+              <TableHead>
+                <TableRow selected>
+                  <TableCell sx={{ fontWeight: 900 }}>Название модуля</TableCell>
+                  <TableCell sx={{ fontWeight: 900 }} align="center">
+                    Всего часов
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {course.modules.map((module, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{module.title}</TableCell>
+                    <TableCell align="center">{module.hours} ак.ч.</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
       <Box sx={{ mt: 4, display: "flex" }}>
         <Button
           component={RouterLink}
