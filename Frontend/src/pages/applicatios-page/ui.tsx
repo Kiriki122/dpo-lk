@@ -1,6 +1,6 @@
 import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 
-import { useApplicationsQuery } from "@/entities/application/model/queries";
+import { useApplicationsQuery } from "@/entities/application";
 import { ApplicationList } from "@/widgets/application-list";
 
 export const ApplicationsPage = () => {

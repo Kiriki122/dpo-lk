@@ -1,11 +1,14 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { ZodError } from "zod";
 
+import { applicationsKeys } from "@/entities/application";
 import { submitApplication as submitApplicationApi } from "../api/submitApplication";
 import type { ApplicationResponse, RegistrationFormData } from "./schema";
 
 export const useSubmitApplication = (onSuccessCallback?: () => void) => {
+  const queryClient = useQueryClient();
+
   const {
     mutateAsync: submitApplication, // Экспортируем mutateAsync для удобной работы с react-hook-form
     isPending,
@@ -15,6 +18,7 @@ export const useSubmitApplication = (onSuccessCallback?: () => void) => {
   } = useMutation({
     mutationFn: (data: RegistrationFormData) => submitApplicationApi(data),
     onSuccess: (_data: ApplicationResponse) => {
+      queryClient.invalidateQueries({queryKey: applicationsKeys.root});
       if (onSuccessCallback) {
         onSuccessCallback();
       }

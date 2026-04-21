@@ -4,6 +4,12 @@ import { ZodError } from "zod";
 
 import { courseApi } from "../api/api";
 
+export const applicationsKeys = {
+  root: ["applications"] as const,
+  all: () => [...applicationsKeys.root, "all"] as const,
+  detail: (id: number | string) => [...applicationsKeys.root, "detail", id] as const,
+};
+
 export const useApplicationsQuery = () => {
   const {
     data: applications,
@@ -11,7 +17,7 @@ export const useApplicationsQuery = () => {
     isLoading,
     ...others
   } = useQuery({
-    queryKey: ["applications"],
+    queryKey: applicationsKeys.root,
     queryFn: () => courseApi.getUserApplications(),
   });
 
