@@ -66,6 +66,21 @@ class ApplicationController {
       next(error);
     }
   }
+
+  async getApplicationDocuments(req, res, next) {
+    try {
+      const { DocNumber } = req.body;
+      const documents = await oneCService.getApplicationDocuments(DocNumber);
+      res.set({
+        "Content-Type": documents.headers["content-type"],
+        "Content-Disposition": documents.headers["content-disposition"],
+        "Content-Length": documents.headers["content-length"],
+      });
+      return documents.data.pipe(res);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new ApplicationController();

@@ -120,6 +120,31 @@ class OneCService {
       throw error;
     }
   }
+
+  async getApplicationDocuments(DocNumber) {
+    if (!DocNumber) {
+      throw ApiError.BadRequest("Отсутствует номер документа (DocNumber)");
+    }
+
+    try {
+      const respone = await axios.get(`${this.baseUrl}/applications/download?number=${DocNumber}`, {
+        auth: this.auth,
+        responseType: "stream",
+      });
+
+      return respone;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 404) {
+          throw ApiError.NotFound("Документ еще не создан. Попробуйте повторить попытку позже.");
+        }
+        const status = error.response?.status || "No Status";
+        const statusText = error.response?.statusText || "Сервер не доступен";
+        throw ApiError.BadGateway(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
+      }
+      throw error;
+    }
+  }
 }
 
 module.exports = new OneCService();

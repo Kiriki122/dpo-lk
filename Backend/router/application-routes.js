@@ -10,5 +10,6 @@ const router = new Router();
 router.post("/", authMiddleware, validate(ApplicationSchema), applicationController.createApplication);
 router.get("/me", authMiddleware, applicationController.getApplications);
 router.post("/upload-files", authMiddleware, handleUpload, applicationController.uploadFiles);
+router.post("/download-file", authMiddleware, applicationController.getApplicationDocuments);
 
 module.exports = router;
