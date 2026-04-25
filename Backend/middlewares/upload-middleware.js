@@ -6,12 +6,13 @@ const { z } = require("zod");
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
+  const originalName = Buffer.from(file.originalname, "latin1").toString("utf8");
   const allowedMimeTypes = ["application/pdf", "image/jpeg", "image/jpg"];
 
   if (allowedMimeTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    req.fileValidationError = `Недопустимый формат файла (${file.originalname}). Разрешены только .pdf и .jpg`;
+    req.fileValidationError = `Недопустимый формат файла (${originalName}). Разрешены только .pdf и .jpg`;
     cb(null, false);
   }
 };
