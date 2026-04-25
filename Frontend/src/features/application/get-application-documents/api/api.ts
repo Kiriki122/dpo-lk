@@ -21,6 +21,7 @@ export const getApplicationDocumentsApi = {
     let fileName = `document_${DocNumber}.pdf`;
     if (contentDisposition && contentDisposition.includes("filename=")) {
       fileName = contentDisposition.split("filename=")[1].split(";")[0].replace(/"/g, "");
+      fileName = decodeURIComponent(fileName);
     }
 
     link.setAttribute("download", fileName);

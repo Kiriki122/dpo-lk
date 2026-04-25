@@ -17,6 +17,9 @@ export const useApplicationDocumentsLinks = (DocNumber: string) => {
           error.message = "Документ еще не создан. Попробуйте повторить попытку позже.";
           return;
         }
+        if (error.response && error.response?.status >= 500) {
+          error.message = "Сервер не доступен. Попробуйте повторить попытку позже.";
+        }
       }
       error.message = "Ошибка при скачивании файла";
       return error;
