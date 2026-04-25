@@ -18,9 +18,16 @@ const RegistrationSchema = z.object({
         .max(32, "Отчество должно содержать максимум 32 символa")
         .optional(),
       email: z.email({ message: "Неверный формат email" }),
-      phone: z.string().refine((value) => validator.isMobilePhone(value, "ru-RU"), {
-        message: "Неверный формат мобильного телефона",
-      }),
+      phone: z.preprocess(
+        (val) => {
+          if (typeof val !== "string") return val;
+          const cleaned = val.replace(/\D/g, "");
+          return cleaned.startsWith("8") ? cleaned : "+" + cleaned;
+        },
+        z.string().refine((value) => validator.isMobilePhone(value, "ru-RU"), {
+          message: "Неверный формат мобильного телефона",
+        })
+      ),
       password: z
         .string()
         .min(8, "Пароль должен содержать минимум 8 символов")

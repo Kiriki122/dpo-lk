@@ -2,6 +2,7 @@ const axios = require("axios");
 const { OneCResponseSchema } = require("./validation/course.schema");
 const ApiError = require("../exceptions/api-error");
 const { User } = require("../models");
+const { z } = require("zod");
 
 class OneCService {
   constructor() {
@@ -32,7 +33,7 @@ class OneCService {
       }
 
       if (error instanceof z.ZodError) {
-        const errorDetails = error.errors.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
+        const errorDetails = error.issues.map((e) => `${e.path.join(".")}: ${e.message}`).join("; ");
 
         throw new Error(`Данные из 1С не соответствуют схеме: ${errorDetails}`);
       }

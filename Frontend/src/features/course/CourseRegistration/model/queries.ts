@@ -18,7 +18,7 @@ export const useSubmitApplication = (onSuccessCallback?: () => void) => {
   } = useMutation({
     mutationFn: (data: RegistrationFormData) => submitApplicationApi(data),
     onSuccess: (_data: ApplicationResponse) => {
-      queryClient.invalidateQueries({queryKey: applicationsKeys.root});
+      queryClient.invalidateQueries({ queryKey: applicationsKeys.root });
       if (onSuccessCallback) {
         onSuccessCallback();
       }

@@ -5,7 +5,22 @@ class AuthController {
     try {
       const { firstName, lastName, middleName, email, phone, password } = req.body;
 
-      const registrationData = await authService.registration(firstName, lastName, middleName, email, phone, password);
+      const processPhone = (val) => {
+        if (typeof val !== "string") return val;
+        const cleaned = val.replace(/\D/g, "");
+        return cleaned.startsWith("8") ? cleaned : "+" + cleaned;
+      };
+
+      const processedPhone = processPhone(phone);
+
+      const registrationData = await authService.registration(
+        firstName,
+        lastName,
+        middleName,
+        email,
+        processedPhone,
+        password
+      );
       return res.status(201).json(registrationData);
     } catch (e) {
       next(e);
