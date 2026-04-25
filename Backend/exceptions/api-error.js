@@ -20,8 +20,8 @@ module.exports = class ApiError extends Error {
     return new ApiError(403, "Доступ запрещен");
   }
 
-  static NotFound() {
-    return new ApiError(404, "Такого маршрута не существует");
+  static NotFound(message) {
+    return new ApiError(404, message ?? "Такого маршрута не существует");
   }
 
   static Conflict(message, errors = []) {
