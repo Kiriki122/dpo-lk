@@ -11,9 +11,6 @@ export const useApplicationDocumentsLinks = (DocNumber: string) => {
     ...others
   } = useMutation({
     mutationFn: () => api.getApplicationDocuments(DocNumber),
-    onSuccess: () => {
-      console.log("Файл успешно загружен в браузер");
-    },
     onError: (error) => {
       if (error instanceof AxiosError) {
         if (error.response?.status === 404) {

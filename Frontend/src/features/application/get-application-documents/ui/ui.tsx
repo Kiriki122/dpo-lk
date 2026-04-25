@@ -9,7 +9,7 @@ export const DocumentDownloadButton = ({ DocNumber }: { DocNumber: string }) => 
 
   return (
     <Button fullWidth variant="contained" onClick={() => download()} loading={isPending}>
-      Скачать документы для подписания
+      Скачать заявление
     </Button>
   );
 };
