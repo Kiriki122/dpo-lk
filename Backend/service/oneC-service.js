@@ -132,6 +132,27 @@ class OneCService {
         responseType: "stream",
       });
 
+      const cdHeader = response.headers["content-disposition"];
+      let fileName = "";
+
+      if (cdHeader) {
+        // 1. Сначала ищем современный формат: filename*=UTF-8''...
+        const matchStar = cdHeader.match(/filename\*=UTF-8''([^;]+)/i);
+        if (matchStar && matchStar[1]) {
+          // Декодируем URL-строку (например, %D0%B0 -> а)
+          fileName = decodeURIComponent(matchStar[1]);
+        } else {
+          // 2. Если нет со звездочкой, ищем обычный filename="..."
+          const matchPlain = cdHeader.match(/filename="?([^";]+)"?/i);
+          if (matchPlain && matchPlain[1]) {
+            // Чиним кодировку Latin1 -> UTF8 для старого формата
+            fileName = Buffer.from(matchPlain[1], "binary").toString("utf8");
+          }
+        }
+      }
+
+      response.parsedFileName = fileName || `Заявка_${DocNumber}.pdf`;
+
       return response;
     } catch (error) {
       if (axios.isAxiosError(error)) {
