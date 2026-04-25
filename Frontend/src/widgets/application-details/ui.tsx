@@ -1,6 +1,7 @@
 import { Box, Divider, Typography } from "@mui/material";
 
 import type { Application } from "@/entities/application";
+import { DocumentDownloadButton } from "@/features/application/get-application-documents";
 
 interface ApplicationDetailsProps {
   application: Application;
@@ -25,6 +26,10 @@ export const ApplicationDetails = ({ application }: ApplicationDetailsProps) => 
         Статус заявки:
       </Typography>
       <Typography variant="body1">{application.status}</Typography>
+
+      <Divider sx={{ my: 2 }} />
+
+      <DocumentDownloadButton DocNumber={application.number} />
     </Box>
   );
 };
