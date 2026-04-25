@@ -127,12 +127,12 @@ class OneCService {
     }
 
     try {
-      const respone = await axios.get(`${this.baseUrl}/applications/download?number=${DocNumber}`, {
+      const response = await axios.get(`${this.baseUrl}/applications/download?number=${DocNumber}`, {
         auth: this.auth,
         responseType: "stream",
       });
 
-      return respone;
+      return response;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 404) {

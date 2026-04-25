@@ -35,8 +35,9 @@ class ApplicationController {
       }
 
       const filesData = req.files.map((file) => {
-        const ext = path.extname(file.originalname).replace(".", "");
-        const name = path.basename(file.originalname, path.extname(file.originalname));
+        const correctName = Buffer.from(file.originalname, "latin1").toString("utf8");
+        const ext = path.extname(correctName).replace(".", "");
+        const name = path.basename(correctName, path.extname(correctName));
 
         return {
           FileName: name,
@@ -71,9 +72,11 @@ class ApplicationController {
     try {
       const { DocNumber } = req.body;
       const documents = await oneCService.getApplicationDocuments(DocNumber);
+      const fileName = documents.parsedFileName || `application_doc_${DocNumber}.pdf`;
+      const encodedName = encodeURI(fileName);
       res.set({
         "Content-Type": documents.headers["content-type"],
-        "Content-Disposition": documents.headers["content-disposition"],
+        "Content-Disposition": `attachment; filename="${encodedName}"; filename*=UTF-8''${encodedName}`,
         "Content-Length": documents.headers["content-length"],
       });
       return documents.data.pipe(res);
