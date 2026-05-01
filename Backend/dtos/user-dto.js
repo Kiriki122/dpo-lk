@@ -5,6 +5,7 @@ module.exports = class UserDto {
   lastName;
   middleName;
   id;
+  isPasswordChanged;
 
   constructor(model) {
     this.email = model.email;
@@ -13,5 +14,6 @@ module.exports = class UserDto {
     this.lastName = model.lastName;
     this.middleName = model.middleName;
     this.id = model.id;
+    this.isPasswordChanged = model.isPasswordChanged;
   }
 };
