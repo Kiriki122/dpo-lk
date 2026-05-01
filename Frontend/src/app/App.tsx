@@ -9,6 +9,8 @@ import "@fontsource/roboto/700.css";
 import { QueryProvider } from "./providers/query";
 import { AppRouter } from "./providers/router";
 
+import "./index.css";
+
 const theme = createTheme({
   palette: {
     mode: "light",

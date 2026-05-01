@@ -5,11 +5,11 @@ import { Link } from "react-router";
 import { pathKeys } from "@/shared/config/routes";
 
 interface HeaderProps {
-  topRightslot?: React.ReactNode;
+  topRightSlot?: React.ReactNode;
   onMenuClick: () => void;
 }
 
-export const Header = ({ topRightslot, onMenuClick }: HeaderProps) => {
+export const Header = ({ topRightSlot = null, onMenuClick }: HeaderProps) => {
   return (
     <AppBar position="fixed" elevation={4} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
@@ -20,7 +20,7 @@ export const Header = ({ topRightslot, onMenuClick }: HeaderProps) => {
           <Link to={pathKeys.root}>
             <img src="/logo.svg" style={{ display: "block", height: "40px" }} alt="Stankin logo, link to main page" />
           </Link>
-          {topRightslot}
+          {topRightSlot}
         </Container>
       </Toolbar>
     </AppBar>

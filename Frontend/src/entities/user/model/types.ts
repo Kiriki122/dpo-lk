@@ -8,6 +8,7 @@ export const UserSchema = z.object({
   middleName: z.string().optional(),
   email: z.email({ pattern: z.regexes.email, error: "Некоректый email" }),
   phone: z.string().refine((v) => validator.isMobilePhone(v, "ru-RU"), { message: "invalid" }),
+  isPasswordChanged: z.boolean(),
 });
 
 export type User = z.infer<typeof UserSchema>;

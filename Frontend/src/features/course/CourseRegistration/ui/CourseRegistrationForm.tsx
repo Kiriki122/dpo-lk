@@ -73,6 +73,7 @@ export const CourseRegistrationForm = ({ initialCourseId = "" }: CourseRegistrat
       await submitApplication(data);
     } catch (error) {
       const _err = error;
+      console.log(_err);
     }
   };
 
