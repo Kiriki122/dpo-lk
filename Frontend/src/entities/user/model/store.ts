@@ -4,14 +4,10 @@ import type { User } from "../model/types";
 
 type UserStore = {
   user: User | null;
-  setUser: (user: User) => void;
-  clearUser: () => void;
 };
 
-const useUserStore = create<UserStore>((set) => ({
+const useUserStore = create<UserStore>(() => ({
   user: null,
-  setUser: (user: User) => set({ user }),
-  clearUser: () => set({ user: null }),
 }));
 
 const useUser = () => {
@@ -23,8 +19,8 @@ const useUser = () => {
 
   return user;
 };
-const setUser = (user: User) => useUserStore.getState().setUser(user);
-const clearUser = () => useUserStore.getState().clearUser();
+const setUser = (user: User) => useUserStore.setState({ user });
+const clearUser = () => useUserStore.setState({ user: null });
 
 export const userStore = {
   useUser,
