@@ -91,7 +91,7 @@ class UserController {
 
       const result = await oneCService.uploadFaceDocuments(validEmail, validFiles);
 
-      return res.status(200).json(result);
+      return res.status(200).json({ message: "Документы загружены" });
     } catch (error) {}
   }
 }

@@ -10,7 +10,7 @@ class ApplicationController {
       const { course_uid, student_fio, phone, email } = req.body;
 
       const registrationData = await oneCService.createApplication(course_uid, student_fio, phone, email);
-      return res.status(201).json(registrationData);
+      return res.status(201).json({message: "Заявка успешно создана"});
     } catch (e) {
       next(e);
     }
@@ -62,7 +62,7 @@ class ApplicationController {
 
       const result = await oneCService.uploadFilesToApplication(validDocNumber, validFiles);
 
-      return res.status(200).json(result);
+      return res.status(200).json({ message: "Файлы успешно загружены" });
     } catch (error) {
       next(error);
     }
