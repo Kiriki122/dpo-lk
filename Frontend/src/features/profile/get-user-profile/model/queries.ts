@@ -1,12 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { profileApi } from "../api/api";
-
-export const profileQueryKey = ["profile", "me"];
+import { userApi, userQueryKey } from "@/entities/user";
 
 export const useUserProfile = () => {
   return useQuery({
-    queryKey: profileQueryKey,
-    queryFn: profileApi.getProfile,
+    queryKey: userQueryKey,
+    queryFn: userApi.getUser,
   });
 };
