@@ -1,5 +1,8 @@
 const userService = require("../service/user-service");
 const oneCService = require("../service/oneC-service");
+const { UploadFaceFilesSchema } = require("../service/validation/upload-files.schema");
+const path = require("node:path");
+const ApiError = require("../exceptions/api-error");
 
 class UserController {
   async getUsers(req, res, next) {
@@ -34,6 +37,7 @@ class UserController {
   async updateFaceInfo(req, res, next) {
     try {
       const user = await userService.getUserById(req.user.id);
+      if (!user) throw ApiError.NotFound("Пользователь не найден");
       const { email, birthDate = null, snils = null, passport = null, registrationAddress = null } = req.body;
 
       const payload = {};
@@ -52,6 +56,42 @@ class UserController {
 
   async uploadDocs(req, res, next) {
     try {
+      const { email } = req.body;
+
+      if (!req.files || req.files.length === 0) {
+        throw ApiError.BadRequest("Файлы не были загружены");
+      }
+
+      const filesData = req.files.map((file) => {
+        const correctName = Buffer.from(file.originalname, "latin1").toString("utf8");
+        const name = path.basename(correctName, path.extname(correctName));
+        const ext = path.extname(correctName).replace(".", "");
+
+        return {
+          FileName: name,
+          Extension: ext,
+          Base64Data: file.buffer.toString("base64"),
+          DocumentType: "ДокументУдостоверяющийЛичность",
+        };
+      });
+
+      const payload = {
+        email,
+        Files: filesData,
+      };
+
+      const validationResult = UploadFaceFilesSchema.safeParse(payload);
+
+      if (!validationResult.success) {
+        const errorMessage = validationResult.error.issues.map((err) => err.message).join(", ");
+        throw ApiError.BadRequest(`Ошибка валидации`, [errorMessage]);
+      }
+
+      const { email: validEmail, Files: validFiles } = validationResult.data;
+
+      const result = await oneCService.uploadFaceDocuments(validEmail, validFiles);
+
+      return res.status(200).json(result);
     } catch (error) {}
   }
 }

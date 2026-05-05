@@ -179,6 +179,36 @@ class OneCService {
     }
   }
 
+  async uploadFaceDocuments(email, Files) {
+    if (!email) {
+      throw ApiError.BadRequest("Отсутствует email (email)");
+    }
+    if (!Files || Files.length === 0) {
+      throw ApiError.BadRequest("Отсутствуют файлы для загрузки (Files)");
+    }
+
+    const payload = {
+      email,
+      Files,
+    };
+
+    try {
+      const response = await axios.post(`${this.baseUrl}/attachFilesToPerson`, payload, { auth: this.auth });
+
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status || "No Status";
+        const statusText = error.response?.statusText || "Сервер не доступен";
+
+        throw ApiError.BadGateway(
+          `Ошибка HTTP запроса к 1С при загрузке файлов: ${status} ${statusText}. ${error.message}.`
+        );
+      }
+
+      throw error;
+    }
+  }
 }
 
 module.exports = new OneCService();
