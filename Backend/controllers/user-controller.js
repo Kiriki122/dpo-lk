@@ -1,4 +1,5 @@
 const userService = require("../service/user-service");
+const oneCService = require("../service/oneC-service");
 
 class UserController {
   async getUsers(req, res, next) {
@@ -28,6 +29,30 @@ class UserController {
     } catch (e) {
       next(e);
     }
+  }
+
+  async updateFaceInfo(req, res, next) {
+    try {
+      const user = await userService.getUserById(req.user.id);
+      const { email, birthDate = null, snils = null, passport = null, registrationAddress = null } = req.body;
+
+      const payload = {};
+      payload.email = email;
+      if (birthDate) payload.birthDate = birthDate;
+      if (snils) payload.snils = snils;
+      if (passport) Object.assign(payload, passport);
+      if (registrationAddress) payload.registrationAddress = registrationAddress;
+
+      await oneCService.updateFaceData(payload);
+      res.json({ message: "Данные обновлены" });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async uploadDocs(req, res, next) {
+    try {
+    } catch (error) {}
   }
 }
 

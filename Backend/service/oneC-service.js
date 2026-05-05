@@ -166,6 +166,19 @@ class OneCService {
       throw error;
     }
   }
+
+  async updateFaceData(data) {
+    try {
+      const response = await axios.post(`${this.baseUrl}/updateUserData`, data, { auth: this.auth });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status || "No Status";
+        const statusText = error.response?.statusText || "Сервер не доступен";
+        throw ApiError.BadGateway(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
+      }
+    }
+  }
+
 }
 
 module.exports = new OneCService();
