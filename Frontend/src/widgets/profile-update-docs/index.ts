@@ -1,0 +1,1 @@
+export { UserProfileAccordion } from "./ui";

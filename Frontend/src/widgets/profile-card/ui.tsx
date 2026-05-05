@@ -30,7 +30,7 @@ export const ProfileCard = () => {
       {isError && <Alert severity="error">{error.message}</Alert>}
       {!isLoading && !isError && (
         <>
-          <Card raised>
+          <Card>
             <CardHeader
               avatar={<PersonIcon fontSize="large" />}
               title="Профиль слушателя"
