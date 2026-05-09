@@ -8,7 +8,7 @@ import { PersistLogin, ProtectedRoutes, PublicRoutes } from "../ui/AuthGuards";
 const CourseRegistrationPage = lazy(() => import("@/pages/course-registration-page"));
 const LoginPage = lazy(() => import("@/pages/login"));
 const CoursesPage = lazy(() => import("@/pages/courses-page"));
-const ApplicationsPage = lazy(() => import("@/pages/applicatios-page"));
+const ApplicationsPage = lazy(() => import("@/pages/applications-page"));
 // const MyDocumentsPage = lazy(() => import("@/pages/my-documents-page"));
 // const SchedulePage = lazy(() => import("@/pages/schedule-page"));
 const ProfilePage = lazy(() => import("@/pages/profile-page"));
