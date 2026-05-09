@@ -36,7 +36,6 @@ services:
       DB_HOST: db
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
-      CLIENT_URL: ${CLIENT_URL}
       ONEC_URL: ${ONEC_URL}
       ONEC_USER: ${ONEC_USER}
       ONEC_PASSWORD: ${ONEC_PASSWORD}
@@ -49,7 +48,7 @@ services:
         - VITE_BACKEND_URL=${VITE_BACKEND_URL}
     restart: always
     ports:
-      - "3000:80" 
+      - "80:80" 
     depends_on:
       - backend
 
