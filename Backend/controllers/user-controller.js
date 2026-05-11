@@ -27,7 +27,11 @@ class UserController {
     try {
       const { oldPassword, newPassword } = req.body;
       const userData = await userService.changePassword(req.user.id, oldPassword, newPassword);
-      res.cookie("refreshToken", userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      });
       res.json({ user: userData.user, accessToken: userData.accessToken });
     } catch (e) {
       next(e);

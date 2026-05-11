@@ -10,7 +10,7 @@ class ApplicationController {
       const { course_uid, student_fio, phone, email } = req.body;
 
       const registrationData = await oneCService.createApplication(course_uid, student_fio, phone, email);
-      return res.status(201).json({message: "Заявка успешно создана"});
+      return res.status(201).json({ message: "Заявка успешно создана" });
     } catch (e) {
       next(e);
     }
