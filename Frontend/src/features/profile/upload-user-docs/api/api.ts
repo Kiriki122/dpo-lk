@@ -6,9 +6,14 @@ export const uploadDocumentsApi = async (data: UploadSchema) => {
 
   formData.append("email", data.email);
 
-  Array.from(data.files).forEach((file) => {
-    formData.append("files", file);
+  const documentTypes: string[] = [];
+
+  data.docs.forEach((doc: { file: File; type: string }) => {
+    formData.append("files", doc.file); 
+    documentTypes.push(doc.type);
   });
+
+  formData.append("documentTypes", JSON.stringify(documentTypes));
 
   const response = await privateApi.post("/users/me/docs", formData, {
     headers: {

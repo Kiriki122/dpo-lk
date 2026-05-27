@@ -60,22 +60,33 @@ class UserController {
 
   async uploadDocs(req, res, next) {
     try {
-      const { email } = req.body;
+      const { email, documentTypes } = req.body;
 
       if (!req.files || req.files.length === 0) {
         throw ApiError.BadRequest("Файлы не были загружены");
       }
 
-      const filesData = req.files.map((file) => {
+      let typesArray = [];
+      if (documentTypes) {
+        try {
+          typesArray = JSON.parse(documentTypes);
+        } catch (e) {
+          console.error("Ошибка парсинга типов документов", e);
+        }
+      }
+
+      const filesData = req.files.map((file, index) => {
         const correctName = Buffer.from(file.originalname, "latin1").toString("utf8");
         const name = path.basename(correctName, path.extname(correctName));
         const ext = path.extname(correctName).replace(".", "");
+
+        const docType = typesArray[index] || "НеизвестныйТипДокумента";
 
         return {
           FileName: name,
           Extension: ext,
           Base64Data: file.buffer.toString("base64"),
-          DocumentType: "ДокументУдостоверяющийЛичность",
+          DocumentType: docType,
         };
       });
 
@@ -96,7 +107,9 @@ class UserController {
       const result = await oneCService.uploadFaceDocuments(validEmail, validFiles);
 
       return res.status(200).json({ message: "Документы загружены" });
-    } catch (error) {}
+    } catch (error) {
+      next(error);
+    }
   }
 }
 

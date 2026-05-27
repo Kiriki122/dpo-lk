@@ -44,12 +44,14 @@ export const UploadUserDocsForm = () => {
   };
 
   const onSubmit = () => {
-    const filesArray = [passport, snils, education].filter((f): f is File => f !== null);
+    const docsData = [
+      { file: passport, type: "ДокументУдостоверяющийЛичность" },
+      { file: snils, type: "СНИЛС" },
+      { file: education, type: "ДокументОПолученномОбразовании" },
+    ].filter((item): item is { file: File; type: string } => item.file !== null);
 
-    if (filesArray.length === 0) {
-      setError("root", {
-        message: "Прикрепите хотя бы один документ",
-      });
+    if (docsData.length === 0) {
+      setError("root", { message: "Прикрепите хотя бы один документ" });
       return;
     }
 
@@ -57,7 +59,7 @@ export const UploadUserDocsForm = () => {
 
     const payload: UploadSchema = {
       email,
-      files: filesArray,
+      docs: docsData,
     };
     setValue("passport", null);
     setValue("snils", null);

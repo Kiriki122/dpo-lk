@@ -28,7 +28,7 @@ const UploadFaceFilesSchema = z.object({
           FileName: z.string().min(1, "FileName не должно быть пустым"),
           Extension: z.string().min(1, "Extension не должно быть пустым"),
           Base64Data: z.base64("Данные должны быть в формате base64").min(1, "Base64Data не должно быть пустым"),
-          DocumentType: z.enum(["ДокументУдостоверяющийЛичность"]),
+          DocumentType: z.enum(["ДокументУдостоверяющийЛичность", "СНИЛС", "ДокументОПолученномОбразовании"]),
         },
         "Ожидается json объект c описанием файла. Поля: FileName, Extension, Base64Data"
       ),

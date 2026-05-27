@@ -1,15 +1,21 @@
 import { z } from "zod";
 
-const ACCEPTED_TYPES = ["application/pdf", "image/jpeg", "image/jpg"];
+const ACCEPTED_TYPES = ["application/pdf", "image/jpeg", "image/jpg", "image/png"];
 
 export const uploadSchema = z.object({
   email: z.string().min(1, "email обязателен").email("Некорректный email"),
-  files: z
-    .array(z.instanceof(File))
+
+  docs: z
+    .array(
+      z.object({
+        file: z.instanceof(File),
+        type: z.string(),
+      })
+    )
     .min(1, "Должен быть загружен хотя бы один файл")
     .refine(
-      (files) => files.every((file) => ACCEPTED_TYPES.includes(file.type)),
-      "Допустимый формат файлов только PDF и JPG"
+      (docs) => docs.every((doc) => ACCEPTED_TYPES.includes(doc.file.type)),
+      "Допустимый формат файлов только PDF, JPG и PNG"
     ),
 });
 
