@@ -55,6 +55,9 @@ class OneCService {
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        if (error.response.status === 409) {
+          throw ApiError.Conflict("Уже существует активная заявка на данный курс. Дождитесь её обработки.");
+        }
         const status = error.response?.status || "No Status";
         const statusText = error.response?.statusText || "Сервер не доступен";
         throw ApiError.BadGateway(`Ошибка HTTP запроса к 1С: ${status} ${statusText}. ${error.message}`);
