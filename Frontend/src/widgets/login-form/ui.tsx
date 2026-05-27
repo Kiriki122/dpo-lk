@@ -26,7 +26,7 @@ export const LoginFormWidget = () => {
       ) : (
         <Typography variant="body2" color="text.secondary">
           Для восстановления пароля обратитесь к администратору:{" "}
-          <Link href="mailto:admin@support.com">admin@support.com</Link>
+          <Link href="mailto:mirit@stankin.ru">mirit@stankin.ru</Link>
         </Typography>
       )}
     </Paper>
