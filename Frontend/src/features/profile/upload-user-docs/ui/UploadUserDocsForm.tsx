@@ -1,4 +1,5 @@
 import { AttachFile, Close } from "@mui/icons-material";
+import DownloadIcon from "@mui/icons-material/Download";
 import { Box, Button, Typography, Chip, Alert, Collapse, Divider } from "@mui/material";
 import { useForm } from "react-hook-form";
 
@@ -7,6 +8,7 @@ import { useUploadUserDocsMutation } from "../model/query";
 import { type UploadSchema } from "../model/schema";
 
 export const UploadUserDocsForm = () => {
+  type UploadFileTypes = "passport" | "snils" | "education" | "obrPD" | "peredPD";
   const email = userStore.useUser().email;
   const { mutate, isPending, isSuccess, isError, error } = useUploadUserDocsMutation();
 
@@ -21,25 +23,31 @@ export const UploadUserDocsForm = () => {
     passport: File | null;
     snils: File | null;
     education: File | null;
+    obrPD: File | null;
+    peredPD: File | null;
   }>({
     defaultValues: {
       passport: null,
       snils: null,
       education: null,
+      obrPD: null,
+      peredPD: null,
     },
   });
 
   const passport = watch("passport");
   const snils = watch("snils");
   const education = watch("education");
+  const obrPD = watch("obrPD");
+  const peredPD = watch("peredPD");
 
   // Обработчик для каждого поля – берёт первый выбранный файл
-  const handleFileChange = (field: "passport" | "snils" | "education") => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (field: UploadFileTypes) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     setValue(field, file, { shouldValidate: false });
   };
 
-  const removeFile = (field: "passport" | "snils" | "education") => {
+  const removeFile = (field: UploadFileTypes) => {
     setValue(field, null, { shouldValidate: false });
   };
 
@@ -48,6 +56,8 @@ export const UploadUserDocsForm = () => {
       { file: passport, type: "ДокументУдостоверяющийЛичность" },
       { file: snils, type: "СНИЛС" },
       { file: education, type: "ДокументОПолученномОбразовании" },
+      { file: obrPD, type: "ОбработкаПД" },
+      { file: peredPD, type: "ОбработкаПД" },
     ].filter((item): item is { file: File; type: string } => item.file !== null);
 
     if (docsData.length === 0) {
@@ -68,7 +78,7 @@ export const UploadUserDocsForm = () => {
     mutate(payload);
   };
 
-  const renderFileField = (label: string, field: "passport" | "snils" | "education", file: File | null) => (
+  const renderFileField = (label: string, field: UploadFileTypes, file: File | null) => (
     <Box>
       <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
         {label}
@@ -96,6 +106,37 @@ export const UploadUserDocsForm = () => {
           {renderFileField("СНИЛС", "snils", snils)}
           <Divider sx={{ my: 2 }} />
           {renderFileField("Документ об образовании", "education", education)}
+          <Divider sx={{ my: 2 }} />
+          {renderFileField("Согласие на обработку персональных данных", "obrPD", obrPD)}
+          <Divider sx={{ my: 2 }} />
+          {renderFileField("Согласие на передачу персональных данных", "peredPD", peredPD)}
+          <Divider sx={{ my: 2 }} />
+
+          <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+            Шаблоны документов
+          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<DownloadIcon />}
+              href="/Soglasie_na_obrabotku_PD_STANKIN_1.docx"
+              download="Soglasie_na_obrabotku_PD_STANKIN_1.docx"
+              sx={{ flexGrow: 1 }}
+            >
+              Согласие на обработку персональных данных
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={<DownloadIcon />}
+              href="/Soglasie_na_peredachu_PD_STANKIN_2.docx"
+              download="Soglasie_na_peredachu_PD_STANKIN_2.docx"
+              sx={{ flexGrow: 1 }}
+            >
+              Согласие на передачу персональных данных
+            </Button>
+          </Box>
         </Box>
         <Collapse
           in={!!errors.root}
